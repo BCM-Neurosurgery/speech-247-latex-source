@@ -23,11 +23,20 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
+      - name: Install LaTeX dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            latexmk \
+            texlive-latex-base \
+            texlive-latex-recommended \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            texlive-pictures \
+            texlive-publishers
+
       - name: Compile manuscript
-        uses: xu-cheng/latex-action@v4
-        with:
-          root_file: sn-article.tex
-          os: debian
+        run: latexmk -norc -pdf -interaction=nonstopmode -halt-on-error -synctex=1 sn-article.tex
 
       - name: Prepare Pages site
         run: |
