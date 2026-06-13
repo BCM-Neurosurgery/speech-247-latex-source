@@ -241,13 +241,6 @@ passively recorded naturalistic speech?
 \section{Results}\label{sec2}
 
 \subsection{Neural-behavioral sync and modeling pipeline}
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{figure_panels/Figure_1_FINAL_Jun_13.pdf}
-\caption{\textbf{Figure 1 | Neural-behavioral sync and modeling pipeline.}}
-\label{fig:figure1}
-\end{figure}
-\figlegend{\textbf{Figure 1.} a, Picture and diagram showing the Epilepsy Monitoring Unit (EMU) where patients are kept for continuous neural recordings, with icons displaying the audio and video recording modalities present in the room and for research use. b, Graphic displaying the synchronization of audio and neural signal courtesy of our Blackrock Neurotech recording system that maintains a synchronized stream of both sampled at 30 kHz. c, Graphic displaying our automated speech extraction and autothresholding pipeline. d, Graphic displaying methodology for extracting emotion features from audio and mapping scores to individual words in our dataset. e, Graphic displaying the input structure of our Poisson GLM used for semantic and emotion encoding. f, Graphic displaying the input and model structure used for XGBoost semantic category decoding.}
 
 We recorded all naturalistic speech and brain activity over a period of 6--11
 days for 21 epilepsy patients. We recorded all speech occurring during the
@@ -305,16 +298,18 @@ boundaries, which is helpful for neural decoding \citep{bib50}. Moreover, XGBoos
 is frequently used with success for behavioral decoding from invasive neural
 recordings \citep{bib51,bib52}.
 \clearpage
-\subsection{Dataset spanning hundreds of thousands of words with accurate
-transcription and diarization}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{figure_panels/Figure_2_Jun11.pdf}
-\caption{\textbf{Figure 2 | Data quantity and annotation accuracy.}}
-\label{fig:figure2}
+\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{figure_panels/Figure_1_FINAL_Jun_13.pdf}
+\caption{\textbf{Figure 1 | Neural-behavioral sync and modeling pipeline.}}
+\label{fig:figure1}
 \end{figure}
-\figlegend{\textbf{Figure 2.} a, 2D UMAP plot of all words collected from our pipeline, clustered by word2vec embeddings and colored by semantic category. Words generally cluster by their assigned semantic category. b, Bar plots showing the amount of speech data collected from our pipeline per patient, sorted by number of words. c, Line plot showing the average number of words across patients collected per 3 hour block starting the first midnight after patient admission, displaying a daily cyclic pattern. Background color displays the standard error per time block across patients. d, Lollipop plot displaying the portion of conversation sentences for which a corresponding match was found in the associated automated transcript. e, Example sentences displaying what potential pairs of matched sentences looked like and the types of transcription errors corrected for. f, Histograms describing transcription and segmentation errors across matched sentences in terms of WER similarity, SBERT cosine similarity, sentence timing errors, and word timing errors. g, Paired barplot summarizing diarization accuracy of annotated conversations compared to patient base speaking rate.}
+\figlegend{\textbf{Figure 1.} \textbf{A.} Picture and diagram showing the Epilepsy Monitoring Unit (EMU) where patients are kept for continuous neural recordings, with icons displaying the audio and video recording modalities present in the room and for research use. \textbf{B.} Graphic displaying the synchronization of audio and neural signal courtesy of our Blackrock Neurotech recording system that maintains a synchronized stream of both sampled at 30 kHz. \textbf{C.} Graphic displaying our automated speech extraction and autothresholding pipeline. \textbf{D.} Graphic displaying methodology for extracting emotion features from audio and mapping scores to individual words in our dataset. \textbf{E.} Graphic displaying the input structure of our Poisson GLM used for semantic and emotion encoding. \textbf{F.} Graphic displaying the input and model structure used for XGBoost semantic category decoding.}
+
+\clearpage
+\subsection{Dataset spanning hundreds of thousands of words with accurate
+transcription and diarization}
 
 We recorded a total of 5{,}270{,}665 words both spoken and heard by twenty-one
 participants. The number of words for each patient ranged from 40{,}351 to
@@ -411,15 +406,17 @@ sufficiently reliable for analyses evaluating semantic tuning of patient-specifi
 speech.
 
 \clearpage
-\subsection{Significant semantic encoding in the continuous speech dataset}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{figure_panels/Figure_3_Jun11.pdf}
-\caption{\textbf{Figure 3 | Significant semantic coding from naturalistic speech data.}}
-\label{fig:figure3}
+\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{figure_panels/Figure_2_Jun11.pdf}
+\caption{\textbf{Figure 2 | Data quantity and annotation accuracy.}}
+\label{fig:figure2}
 \end{figure}
-\figlegend{\textbf{Figure 3.} a, Bar plot showing average semantic encoding performance per patient across all significant units with standard error bars, sorted by model performance. Number of significant units are listed above each bar. b, Paired line plot comparing semantic encoding performance between all speech and patient-only speech conditions. c, Grouped bar plot showing comparative semantic encoding performance between the naturalistic speech and experimental datasets (conversation + podcast), with automated conditions for each task. d, Paired line plot comparing semantic encoding performance between all speech and within-day speech conditions. e, Line plot with best fit lines and summary charts showing relationship between epoch encoding strength and portion of time patient spent speaking. f, Boxplot showing semantic encoding model performance distribution by brain region.}
+\figlegend{\textbf{Figure 2.} \textbf{A.} 2D UMAP plot of all words collected from our pipeline, clustered by word2vec embeddings and colored by semantic category. Words generally cluster by their assigned semantic category. \textbf{B.} Bar plots showing the amount of speech data collected from our pipeline per patient, sorted by number of words. \textbf{C.} Line plot showing the average number of words across patients collected per 3 hour block starting the first midnight after patient admission, displaying a daily cyclic pattern. Background color displays the standard error per time block across patients. \textbf{D.} Lollipop plot displaying the portion of conversation sentences for which a corresponding match was found in the associated automated transcript. \textbf{E.} Example sentences displaying what potential pairs of matched sentences looked like and the types of transcription errors corrected for. \textbf{F.} Histograms describing transcription and segmentation errors across matched sentences in terms of WER similarity, SBERT cosine similarity, sentence timing errors, and word timing errors. \textbf{G.} Paired barplot summarizing diarization accuracy of annotated conversations compared to patient base speaking rate.}
+
+\clearpage
+\subsection{Significant semantic encoding in the continuous speech dataset}
 
 We first aimed to understand whether our automated pipeline allows for the
 development of meaningful semantic encoding models. We analyzed recovered
@@ -525,15 +522,17 @@ higher-level semantic/symbolic language processing and findings of distributed
 semantic networks throughout the brain \citep{bib4,bib2}.
 
 \clearpage
-\subsection{Significant semantic decoding from naturalistic speech data}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{figure_panels/Figure_4_Jun11.pdf}
-\caption{\textbf{Figure 4 | Significant semantic decoding from naturalistic speech data.}}
-\label{fig:figure4}
+\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{figure_panels/Figure_3_Jun11.pdf}
+\caption{\textbf{Figure 3 | Significant semantic coding from naturalistic speech data.}}
+\label{fig:figure3}
 \end{figure}
-\figlegend{\textbf{Figure 4.} a, Bar plot showing average semantic decoding performance per patient across all significant units with standard error bars, sorted by model performance. Number of significant models are listed above each bar. b, Paired line plot comparing semantic decoding performance between all speech and patient-only speech conditions. c, Grouped bar plot showing comparative semantic decoding performance between the naturalistic speech and experimental datasets (conversation + podcast), with automated conditions for each task. d, Paired line plot comparing semantic decoding performance between all speech and within-day speech conditions. e, Scatterplot with line of best fit highlighting trend between unit population size and model performance. f, Line plot with best fit lines and summary charts showing relationship between epoch decoding strength and portion of time patient spent speaking. g, Line plots showcasing epoch model performance variation over time. h, Boxplot showing semantic decoding model performance distribution by brain region.}
+\figlegend{\textbf{Figure 3.} \textbf{A.} Bar plot showing average semantic encoding performance per patient across all significant units with standard error bars, sorted by model performance. Number of significant units are listed above each bar. \textbf{B.} Paired line plot comparing semantic encoding performance between all speech and patient-only speech conditions. \textbf{C.} Grouped bar plot showing comparative semantic encoding performance between the naturalistic speech and experimental datasets (conversation + podcast), with automated conditions for each task. \textbf{D.} Paired line plot comparing semantic encoding performance between all speech and within-day speech conditions. \textbf{E.} Line plot with best fit lines and summary charts showing relationship between epoch encoding strength and portion of time patient spent speaking. \textbf{F.} Boxplot showing semantic encoding model performance distribution by brain region.}
+
+\clearpage  
+\subsection{Significant semantic decoding from naturalistic speech data}
 
 Decoding models of semantics play a complementary role to encoding models, and
 are especially interesting for BCI purposes \citep{bib16,bib62,bib22,bib63}. To
@@ -603,15 +602,18 @@ and HPC are the highest performing regions, followed by the thalamus and ACC
 (Figure 4H).
 
 \clearpage
-\subsection{Encoding model performance as a function of dataset size}
+
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{figure_panels/Figure_5_Jun12.pdf}
-\caption{\textbf{Figure 5 | Decimation analysis.}}
-\label{fig:figure5}
+\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{figure_panels/Figure_4_Jun11.pdf}
+\caption{\textbf{Figure 4 | Significant semantic decoding from naturalistic speech data.}}
+\label{fig:figure4}
 \end{figure}
-\figlegend{\textbf{Figure 5.} a, Boxplot with Hill curve showing semantic encoding performance growth as function of dataset portion used for training. b, 2D histogram with Hill curve showing semantic encoding performance growth as function of words in sample. c, Scatterplot of fraction of significant semantic encoding units as a function of dataset portions, with portion averages as an overlaid line plot.}
+\figlegend{\textbf{Figure 4.} \textbf{A.} Bar plot showing average semantic decoding performance per patient across all significant units with standard error bars, sorted by model performance. Number of significant models are listed above each bar. \textbf{B.} Paired line plot comparing semantic decoding performance between all speech and patient-only speech conditions. \textbf{C.} Grouped bar plot showing comparative semantic decoding performance between the naturalistic speech and experimental datasets (conversation + podcast), with automated conditions for each task. \textbf{D.} Paired line plot comparing semantic decoding performance between all speech and within-day speech conditions. \textbf{E.} Scatterplot with line of best fit highlighting trend between unit population size and model performance. \textbf{F.} Line plot with best fit lines and summary charts showing relationship between epoch decoding strength and portion of time patient spent speaking. \textbf{G.} Line plots showcasing epoch model performance variation over time. \textbf{H.} Boxplot showing semantic decoding model performance distribution by brain region.}
+
+\clearpage  
+\subsection{Encoding model performance as a function of dataset size}
 
 The scale of our dataset lets us determine the effect of data quantity on
 performance. When we randomly decimate our per-day datasets to portions ranging
@@ -653,16 +655,18 @@ curve, in that only the most prominent effects are recognizable at smaller sampl
 sizes whereas weaker effects only emerge when there is enough data to detect them.
 
 \clearpage
-\subsection{Assessing differences in coding models across time (functional
-drift)}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{figure_panels/Figure_6_Jun11.pdf}
-\caption{\textbf{Figure 6 | Representational drift.}}
-\label{fig:figure6}
+\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{figure_panels/Figure_5_Jun12.pdf}
+\caption{\textbf{Figure 5 | Decimation analysis.}}
+\label{fig:figure5}
 \end{figure}
-\figlegend{\textbf{Figure 6.} a, Boxplot with line of best fit showing encoding model performance changes across time in days. b, Scatterplot of fraction of significant semantic encoding units as a function of test distance in days. c, Boxplot with line of best fit showing decoding model performance changes across time in days. d, Scatterplot of fraction of significant semantic decoding models as a function of test distance in days. e, Density plots showing distribution of encoding model performance slopes (green) and decoding model performance slopes (purple). f, Scatterplot with line of best fit showing changes in tuning function distance across time in hours.}
+\figlegend{\textbf{Figure 5.} \textbf{A.} Boxplot with Hill curve showing semantic encoding performance growth as function of dataset portion used for training. \textbf{B.} 2D histogram with Hill curve showing semantic encoding performance growth as function of words in sample. \textbf{C.} Scatterplot of fraction of significant semantic encoding units as a function of dataset portions, with portion averages as an overlaid line plot.}
+
+\clearpage
+\subsection{Assessing differences in coding models across time (functional
+drift)}
 
 Encoding models are not the same day to day. Specifically, we find that models
 fit on one day and tested on a different day are less similar than two models fit
@@ -705,6 +709,16 @@ recording stability is an important avenue for the development of consistent
 semantic coding models, additional model-level corrections (such as aligning
 latent neural embeddings; \citealp{bib70}) are also likely needed to account for
 inherent neural variability across time.
+
+\clearpage
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{figure_panels/Figure_6_Jun11.pdf}
+\caption{\textbf{Figure 6 | Representational drift.}}
+\label{fig:figure6}
+\end{figure}
+\figlegend{\textbf{Figure 6.} \textbf{A.} Boxplot with line of best fit showing encoding model performance changes across time in days. \textbf{B.} Scatterplot of fraction of significant semantic encoding units as a function of test distance in days. \textbf{C.} Boxplot with line of best fit showing decoding model performance changes across time in days. \textbf{D.} Scatterplot of fraction of significant semantic decoding models as a function of test distance in days. \textbf{E.} Density plots showing distribution of encoding model performance slopes (green) and decoding model performance slopes (purple). \textbf{F.} Scatterplot with line of best fit showing changes in tuning function distance across time in hours.}
 
 \clearpage
 \section{Discussion}\label{sec10}
