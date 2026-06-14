@@ -1,0 +1,22 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build LaTeX PDF",
+      "type": "shell",
+      "command": "latexmk",
+      "args": [
+        "-norc",
+        "-pdf",
+        "-interaction=nonstopmode",
+        "-synctex=1",
+        "sn-article.tex"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}
