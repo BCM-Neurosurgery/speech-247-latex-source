@@ -276,24 +276,24 @@ passively recorded naturalistic speech?
 We recorded all naturalistic speech and brain activity over a period of 6--11
 days for 21 epilepsy patients. We recorded all speech occurring during the
 entirety of each patient's stay (average: 6.72 $\pm$ 0.52 days) in the
-epilepsy monitoring unit (EMU) at Baylor St. Luke's Hospital (Methods). Two
+epilepsy monitoring unit (EMU) at Baylor St. Luke's Hospital (\textbf{Methods}). Two
 studio microphones, one directly above the patient's bed and another to the
 side, recorded all speech occurring within the patient room. Additionally, eight
 cameras located throughout the room, capturing various angles of the patient bed,
-recorded all patient activity during their stay (Figure 1A). The microphones and
+recorded all patient activity during their stay (\textbf{Figure 1A}). The microphones and
 cameras recorded many conversations with friends, family, clinical and research
-staff, as well as speech played from the television (Figure 1B).
+staff, as well as speech played from the television (\textbf{Figure 1B}).
 
 All data were processed through a voice activity detection model called
 silero\_vad \citep{bib43} to find passages of audio data that contained
 identifiable human speech. Speech was then segmented into sentences and words
 using WhisperX \citep{bib39}. Multiple scoring metrics, including CTC
 log-likelihood, WhisperX quality score, spectral entropy, and DNSMOS quality
-scores were calculated for each sentence (Methods). Sentences at low-quality
+scores were calculated for each sentence (\textbf{Methods}). Sentences at low-quality
 extrema (outside 0.75 $\times$ IQR) of their relative distributions were removed
-from the dataset (Figure 1C). We used a standard autothresholding algorithm
+from the dataset (\textbf{Figure 1C}). We used a standard autothresholding algorithm
 \citep{bib112,bib113,bib114} to capture multi-unit spiking activity that could be
-aligned with word timestamps (Figure 1C, Methods). For convenience, we refer to each of these autolabelled sets as
+aligned with word timestamps (\textbf{Figure 1C}, \textbf{Methods}). For convenience, we refer to each of these autolabelled sets as
 \textit{units}.
 
 To identify segments of patient speech, we used a multimodal active speaker
@@ -303,18 +303,18 @@ errors in non-ideal recording conditions---such as overlapping speakers,
 background noise, etc.---which led to us turning to multimodal methods
 \citep{bib45,bib46}. This model uses video as well as audio features, such as
 facial movements and speech recognition, to identify video frames in which a
-particular person is likely to be speaking (Figure 1D, Methods). We used the
+particular person is likely to be speaking (\textbf{Figure 1D}, \textbf{Methods}). We used the
 speaker labels from this model to compare patient-only versus all speech in our
 downstream semantic coding models.
 
 Our \textbf{encoding models} involved regressing GPT-2 embeddings against spike
 counts for individual units \citep[cf.][]{bib4}. The model was implemented as a
 Poisson GLM with an L2 regularizer and a duration term included as an offset
-variable (Figure 1E). Models were fitted independently across neurons in bulk
-matrices in PyTorch (Methods). GPT-2 embeddings were calculated by taking the
+variable (\textbf{Figure 1E}). Models were fitted independently across neurons in bulk
+matrices in PyTorch (\textbf{Methods}). GPT-2 embeddings were calculated by taking the
 hidden state of the last layer of GPT-2-large, from an inference pass of the
 current word, with the prior 200 words in the continuous speech stream taken as
-context (Methods). The final hidden layer was selected due to it being the
+context (\textbf{Methods}). The final hidden layer was selected due to it being the
 natural contextual representation of a word as it is directly used for next-token
 prediction in the transformer architecture \citep{bib47}. Moreover, prior studies
 find comparable performance for neural encoders between the final layer of GPT-2
@@ -324,7 +324,7 @@ Our \textbf{decoding models} involved training an XGBoost classifier with
 population firing rate activity (defined as the average neural firing rate across
 a word interval for a set of neurons) to predict broad semantic category labels,
 which included classes such as ``relationships'', ``numerical'', and ``medical''
-(Figure 1F). XGBoost was chosen for its skill in learning nonlinear classifier
+(\textbf{Figure 1F}). XGBoost was chosen for its skill in learning nonlinear classifier
 boundaries, which is helpful for neural decoding \citep{bib50}. Moreover, XGBoost
 is frequently used with success for behavioral decoding from invasive neural
 recordings \citep{bib51,bib52}.
@@ -346,12 +346,12 @@ We recorded a total of 5{,}270{,}665 words both spoken and heard by twenty-one
 participants. The number of words for each patient ranged from 40{,}351 to
 521{,}360. Seventeen of the patients had datasets with over 100{,}000 words.
 Across all patients, we collected a total of 871.2 hours of speech (spoken and/or
-heard), ranging between 7.1 and over 87.7 hours of speech per patient (Figure
+heard), ranging between 7.1 and over 87.7 hours of speech per patient (\textbf{Figure 2A}).
 2A). We find the lexicon of spoken words to span a range of expected topics,
-including a large mode for medical terminology (Figure 2B). Additionally, we find
+including a large mode for medical terminology (\textbf{Figure 2B}). Additionally, we find
 that the timing of speech production and listening follows a cyclic pattern, with
 the number of words spoken peaking in the early afternoon hours and declining
-significantly late at night (Figure 2C).
+significantly late at night (\textbf{Figure 2C}).
 
 To identify speech uttered by the patient, we used a video- and audio-based
 active speaker detection (ASD) model called Lightweight and Robust Network for
@@ -376,10 +376,10 @@ meaningful sentences, which included sentences with at least two non-filler word
 its corresponding sentence (if any) in the automated transcript within a 60
 second window around the sentence. A match was considered to be the sentence with
 the lowest Word Error Rate (WER) in the window as long as it was 0.5 or less,
-which was determined via Levenshtein distances \citep{bib115} (Methods). We found that, on
+which was determined via Levenshtein distances \citep{bib115} (\textbf{Methods}). We found that, on
 average, 90.15\% of semantically meaningful sentences were matched in the
 automated transcript, with the automated transcript capturing the majority of
-sentences in the conversation for all patients (Figure 2D). This indicates
+sentences in the conversation for all patients (\textbf{Figure 2D}). This indicates
 WhisperX is generally successful in transcribing human speech in the EMU, with
 infrequent errors resulting from known variables such as overlapping speakers and
 noisy audio segments \citep{bib39}.
@@ -399,7 +399,7 @@ maintained for sentence matches. For example, the sentences ``I knew he had take
 it \textit{because} I was just like tutoring with him \textit{one on one}'' and
 ``I knew he had taken it \textit{cause} I was just like tutoring with him,'' have
 a slightly lower WER similarity score of 0.8 whereas their SBERT cosine
-similarity is 0.981 (Figure 2E).
+similarity is 0.981 (\textbf{Figure 2E}).
 
 \textit{Quantifying temporal precision:} We also calculated the timestamp error
 of all matched sentences and words within those sentences to quantify temporal
@@ -409,8 +409,7 @@ between words within each matched sentence was only 71.68 milliseconds. This
 indicates timestamp errors are relatively minor and should not significantly
 affect estimates of semantic tuning. Overall, we find that transcription and
 segmentation errors are relatively minor and should not invalidate the
-possibility of generating semantic coding models from naturalistic speech (Figure
-2F).
+possibility of generating semantic coding models from naturalistic speech (\textbf{Figure 2F}).
 
 To assess our diarization accuracy, we compared the outputs of LR-ASD to the
 manually annotated speakers for each sentence. LR-ASD provides a speaker
@@ -421,7 +420,7 @@ overlapping speakers, similar to automated transcription. When calculating basic
 classification metrics and comparing them to each patient's base speaking rate
 (i.e., the portion of the conversation they spent talking), we find that the
 video-diarization model is significantly more precise than the base speaking rate
-for all tested patients for which we had video data available (Figure 2G).
+for all tested patients for which we had video data available (\textbf{Figure 2G}).
 Moreover, for 50\% of patients with video available, LR-ASD is more than 70\%
 accurate when classifying a sentence as belonging to the patient. This is in line
 with other groups' findings that multimodal diarization models significantly
@@ -462,7 +461,7 @@ posterior cingulate.
 
 We evaluated \textit{encoder model performance} using the pseudo $R^2$ score,
 which defines the relative performance gain over a null model that predicts spike
-counts from the average firing rate and duration of each word (Methods). Pseudo
+counts from the average firing rate and duration of each word (\textbf{Methods}). Pseudo
 $R^2$ was chosen for its interpretability and inherent benchmarking: a score
 equal to zero indicates performance that is equal to our specified null model.
 Negative values indicate performance that was worse than the null model.
@@ -470,14 +469,14 @@ Moreover, pseudo $R^2$ scores with mean firing rate nulls are commonly used to
 evaluate GLM performance in neural coding analyses \citep{bib57,bib58,bib59}. Our
 automated pipeline produced robust encoding models, as seen from average pseudo
 $R^2$ scores above 0 ($0.004 \pm 0.0003$ to $0.12 \pm 0.025$) for all patients
-(Figure 3A). Our response range is typical for neural encoding models
+(\textbf{Figure 3A}). Our response range is typical for neural encoding models
 \citep{bib57,bib58,bib59}, and significant scores above zero solidify that our
 automated pipeline is able to detect semantic tuning without manual data
 curation.
 
 We next compared encoding performance for patient-only speech identified by our
 video diarization pipeline with all ambient speech. We overall find encoding
-performance to be stronger for produced speech than all speech (Figure 3B).
+performance to be stronger for produced speech than all speech (\textbf{Figure 3B}).
 Specifically, we see a 2.42-fold increase (from 0.026 to 0.064) in pseudo $R^2$
 scores for patient-spoken speech. This is especially notable considering our
 patient-only models were trained on $50.52~(\pm 12.30)$ times less data on average. One reason
@@ -489,10 +488,10 @@ ambient speech may be ignored \citep{bib35}.
 We next compared embeddings derived from incidental speech to those derived from
 two highly controlled tasks: (1) a formalized but freewheeling conversation task
 \citep{bib53,bib49}, and (2) a podcast listening task \citep{bib4,bib48};
-(Methods). We find that encoding strength is significantly higher for our
+(\textbf{Methods}). We find that encoding strength is significantly higher for our
 controlled datasets, with a $4.43~(\pm 1.67)$-fold average increase in encoding
 strength for the conversation task and an $8.59~(\pm 3.12)$-fold increase in
-encoding strength for the podcast task (Figure 3C).
+encoding strength for the podcast task (\textbf{Figure 3C}).
 
 To gain insight into why the controlled tasks produce stronger encoding, we
 replicated this analysis using a version of both controlled datasets with
@@ -522,7 +521,7 @@ individual day in each patient's stay and compared them to models trained on the
 entire patient stay (averaging 6.72 days, ranging from 6--11 days). We find that
 models trained on individual days performed significantly better than models
 trained with data from all days, with a $3.06~(\pm 0.44)$-fold increase in pseudo
-$R^2$ scores on average (Figure 3D). Thus, day-to-day variability is a major
+$R^2$ scores on average (\textbf{Figure 3D}). Thus, day-to-day variability is a major
 driver of variation in encoding model performance.
 
 While during experiments we are able to limit the number of distractions and
@@ -538,9 +537,9 @@ and engagement with ambient speech. For example, the portion would be 0 when the
 patient is passively listening to the television while engaged in a separate
 activity, while it could be as high as 0.7 when they are actively engaged in
 conversation with another person. We find that, when regressing patient speech
-fraction against epoch encoding strength via weighted least squares (Methods),
+fraction against epoch encoding strength via weighted least squares (\textbf{Methods}),
 81\% of patients have a positive trend (31\% significant), whilst 19\% of patients
-have a negative trend (6\% significant; Figure 3E). While this result may be a
+have a negative trend (6\% significant; \textbf{Figure 3E}). While this result may be a
 consequence of our units being significantly more tuned to patient speech, it may
 also indicate that overall, semantic tuning in our units is significantly
 correlated with the portion of patient speech engagement, potentially indicating
@@ -550,7 +549,7 @@ high-performing semantic coding models.
 \subsubsection{Comparing brain regions}
 
 We find, in order, PCC, ACC, HPC, and thalamus to have the best overall
-performance. We find OFC and amygdala to have the worst performance (Figure 3F).
+performance. We find OFC and amygdala to have the worst performance (\textbf{Figure 3F}).
 This corroborates findings from existing literature implicating hippocampus in
 higher-level semantic/symbolic language processing and findings of distributed
 semantic networks throughout the brain \citep{bib4,bib2}.
@@ -576,8 +575,7 @@ model performance using overall accuracy scores (ratio of correctly identified
 words to total number of words). With ten semantic categories, chance was 10\%.
 
 Our pipeline produces significant decoding. All but one patient have more than
-20\% semantic decoding accuracy (average accuracy: $20.9\% \pm 0.08\%$; Figure
-4A). In contrast to our encoding models, we find that decoding is more accurate
+20\% semantic decoding accuracy (average accuracy: $20.9\% \pm 0.08\%$; \textbf{Figure 4A}). In contrast to our encoding models, we find that decoding is more accurate
 (although modestly so) for all speech versus patient-only speech. Specifically,
 we see an $18\%~(\pm 2.6\%)$ decrease in classification accuracy.
 
@@ -610,7 +608,7 @@ single-day model performance is worse than full multi-day dataset decoding
 outweighs cross-day neural variability.
 
 We also find that decoding accuracy is better for patients with more recorded
-units than fewer (Figure 4E). This provides further support for the notion that
+units than fewer (\textbf{Figure 4E}). This provides further support for the notion that
 larger populations of neural data allow for the training of more accurate models
 of human behavior that take advantage of the redundancy of single-neuron tuning
 \citep{bib64,bib65,bib61} and are robust to failures and fluctuations that occur
@@ -620,12 +618,12 @@ We also assessed the variability of semantic decoding across the two-hour epoch
 scale and probed whether the same attentional variation as in encoding emerged.
 Overall, we find a similar if less pronounced trend, where 53\% of patients have a
 positive trend (20\% significant), whilst 47\% of patients have a negative trend
-(6\% significant; Figure 4F). This mirrors our encoding findings and corroborates
+(6\% significant; \textbf{Figure 4F}). This mirrors our encoding findings and corroborates
 the idea that patient engagement may improve the performance of our semantic
 coding models. Decoding performance is more stable across 2-hour epochs than
 encoding performance: our epoch decoding performance has an $85.9\%~(\pm 0.16\%)$
 smaller coefficient of variation than our epoch encoding performance ($p<0.0001$;
-Feltz--Miller test, Methods; Figure 4G).
+Feltz--Miller test, \textbf{Methods}; \textbf{Figure 4G}).
 
 \subsubsection{Decoding: comparing brain regions}
 
@@ -633,7 +631,7 @@ We trained decoding models separately for each brain region. All brain regions
 performed significantly above chance, but worse than models trained using all
 available units across regions ($p<0.001$). As with the encoding models, the PCC
 and HPC are the highest performing regions, followed by the thalamus and ACC
-(Figure 4H).
+(\textbf{Figure 4H}).
 
 \clearpage
 
@@ -650,11 +648,11 @@ and HPC are the highest performing regions, followed by the thalamus and ACC
 
 The scale of our dataset lets us determine the effect of data quantity on
 performance. When we randomly decimate our per-day datasets to portions ranging
-from 1\% to 90\% of the data (Methods), we generally find that additional
-training data improves encoding model performance (Figure 5A). That performance
+from 1\% to 90\% of the data (\textbf{Methods}), we generally find that additional
+training data improves encoding model performance (\textbf{Figure 5A}). That performance
 shows marginal decline, although we do not detect any saturation. Our best fit
 curve is modelled after the Hill equation, which is commonly used for sigmoidal
-biological relationships (Methods). Moreover, we found the Hill equation to
+biological relationships (\textbf{Methods}). Moreover, we found the Hill equation to
 significantly fit our data according to permutation testing ($p<0.01$) and it
 also better explained experimental data than a weighted least squares fit
 ($\mathrm{Loss}_{\mathrm{hill}} < \mathrm{Loss}_{\mathrm{wls}}$; $d\mathrm{Loss}
@@ -667,7 +665,7 @@ performance when using at least $4.7\%~(\pm 0.04\%)$ of the dataset on average.
 
 We then repeated these analyses using number of words, instead of number of
 minutes. As with minutes, we find a clear logistic growth curve, with performance
-exceeding null at around $724.3~(\pm 3.4)$ words (Figure 5B). The Hill equation similarly
+exceeding null at around $724.3~(\pm 3.4)$ words (\textbf{Figure 5B}). The Hill equation similarly
 significantly fit our data and performed better than a simple linear fit
 ($\mathrm{Loss}_{\mathrm{hill}} < \mathrm{Loss}_{\mathrm{wls}}$; $d\mathrm{Loss} =
 -307.5$).
@@ -675,8 +673,7 @@ significantly fit our data and performed better than a simple linear fit
 We find that the proportion of units significantly tuned to our semantic
 embeddings also increased according to a logistic growth curve, with 1\% of data
 yielding an average of $22.2\%~(\pm 0.2\%)$ significant units before saturating to
-an average of $91.6\%~(\pm 0.6\%)$ of units at around 70\% of each dataset (Figure
-5C). Contextual transformer embeddings capture many aspects of language relevant
+an average of $91.6\%~(\pm 0.6\%)$ of units at around 70\% of each dataset (\textbf{Figure 5C}). Contextual transformer embeddings capture many aspects of language relevant
 to word meaning---including syntax, grammar, word order, surrounding
 context---within a distributed high-dimensional representation \citep{bib66},
 which means a unit significantly tuned to these embeddings could be responsive to
@@ -705,28 +702,28 @@ Encoding models are not the same day to day. Specifically, we find that models
 fit on one day and tested on a different day are less similar than two models fit
 on different subsets of data on the same day. As a result, model performance
 decreases as a function of the temporal separation between the training day and
-the test day ($p<0.001$; Figure 6A). This effect is strongest when comparing
+the test day ($p<0.001$; \textbf{Figure 6A}). This effect is strongest when comparing
 within-day testing to the next-day ($+1$), where the median pseudo $R^2$ score
 dips from $0.034~(\pm 0.006)$ to $-0.027~(\pm 0.008)$ and tends to grow more
 negative over time ($R^2$ scores are normalized in reference to null performance,
 so decreases below zero are meaningful). Moreover, the portion of significant
 units plummets from $97.8\%~(\pm 1.2\%)$ on average to $7.8\%~(2.4\%)$ after just
-one day of separation (Figure 6B). Overall, we find that significant model
+one day of separation (\textbf{Figure 6B}). Overall, we find that significant model
 degradation occurs for our single-unit encoding models after even just one day of
 temporal separation, rendering most models unreliable for downstream use cases
 after their original training date.
 
 Unlike encoding models, decoding model performance does not significantly
-decrease with distance in time ($p = 0.6450$; Figure 6C). However, similar to
+decrease with distance in time ($p = 0.6450$; \textbf{Figure 6C}). However, similar to
 encoding, the proportion of significant models does decrease significantly over
-time (WLS, $p<0.001$), albeit at a much more steady rate (Figure 6D).
+time (WLS, $p<0.001$), albeit at a much more steady rate (\textbf{Figure 6D}).
 Specifically, the percent of significant models starts at $95.3\%~(\pm 1.9\%)$ and
 degrades to $65.6\%~(\pm 9.1\%)$ of models still performing with statistical
 significance after eight days from their original training date. The relative
 stability of decoding drift is apparent when we compare the distributions of
 regression slopes of individual model performance between encoding and decoding.
 We found model decoding slopes to be significantly higher than model encoding
-slopes (one-tailed $t$-test, $p<0.001$; Figure 6E). Moreover, the overwhelming
+slopes (one-tailed $t$-test, $p<0.001$; \textbf{Figure 6E}). Moreover, the overwhelming
 majority of encoding models have negative slopes (meaning their performance
 decreases over time), while the average decoding model has a positive slope.
 
@@ -735,7 +732,7 @@ single-unit encoding models. The vectors of weights of our models can be thought
 of as tuning functions that map behavioral representations to neural activity
 \citep{bib53,bib68,bib69}. We find that as the amount of time between training
 sets increases, the cosine distance of our tuning functions increases very
-gradually (WLS, $p = 0.0427$; Figure 6F). Thus, beyond performance loss, the
+gradually (WLS, $p = 0.0427$; \textbf{Figure 6F}). Thus, beyond performance loss, the
 temporal degradation in single-unit semantic encoding is accompanied by slight
 drift in the semantic tuning functions themselves. Therefore, while maximizing
 recording stability is an important avenue for the development of consistent
@@ -1012,9 +1009,9 @@ with solution
 (X^\top W X)^{-1}X^\top W\mathbf{y}.
 \]
 
-For patient-speech fraction vs. epoch model performannces (Figure 3E, 4F), $x_i$ was the patient-speech fraction within an epoch and $y_i$ was encoding pseudo-$R^2$ or decoding accuracy, respectively. WLS fits were performed separately for each patient. Weights were assigned by inverse bin density of the predictor, using Freedman--Diaconis bins capped at 20 bins, so overrepresented speech-fraction ranges contributed less strongly to the fit.
+For patient-speech fraction vs. epoch model performannces (\textbf{Figure 3E}, \textbf{Figure 4F}), $x_i$ was the patient-speech fraction within an epoch and $y_i$ was encoding pseudo-$R^2$ or decoding accuracy, respectively. WLS fits were performed separately for each patient. Weights were assigned by inverse bin density of the predictor, using Freedman--Diaconis bins capped at 20 bins, so overrepresented speech-fraction ranges contributed less strongly to the fit.
 
-For populution size vs. decoding performance (Figure 4E), $x_i$ was population size and $y_i$ was decoding accuracy. The same inverse-density WLS procedure was used.
+For populution size vs. decoding performance (\textbf{Figure 4E}), $x_i$ was population size and $y_i$ was decoding accuracy. The same inverse-density WLS procedure was used.
 
 For the above regressions, slope significance was assessed using a two-tailed permutation test with 500 permutations. The observed slope $\hat{\beta}_1$ was compared with slopes obtained after shuffling predictor values:
 \[
@@ -1030,7 +1027,7 @@ p =
 \qquad B = 500.
 \]
 
-To assess functional drift (Figure~6A, 6C), WLS regression was used to test whether the model performance changed with days since training. Each unique day-offset group was weighted equally:
+To assess functional drift (\textbf{Figure 6A}, \textbf{Figure 6C}), WLS regression was used to test whether the model performance changed with days since training. Each unique day-offset group was weighted equally:
 \[
 w_i = \frac{1}{n_{g(i)}},
 \]
@@ -1044,9 +1041,10 @@ t =
 where \(\hat{\beta}_1\) is the estimated WLS slope and
 \(\operatorname{SE}(\hat{\beta}_1)\) is its standard error.
 
-For encoding vs. decoding drift comparison (Figure 6E), drift slopes were computed separately for each patient and training day after min--max normalizing performance within each training-day series.
+For encoding vs. decoding drift comparison (\textbf{Figure 6E}), drift slopes were computed separately for each patient and training day after min--max normalizing performance within each training-day series.
 
 \subsection{Epoch Analyses}\label{subsec19}
+To assess short-term changes in encoder/decoder model performance, we fit models on shorter timescales than our full-stay or per-day analyses. These were trained and tested identically to models in \textbf{6.8}, except each model was trained on a particular 2-hour block from 9 AM - 11 PM (local time).
 
 \subsection{Variance Comparison}\label{subsec20}
 We compared the relative dispersion of encoding and decoding model performance across recording epochs using the coefficient of variation (CV). Encoding dispersion was computed from all positive, significant single-unit pseudo-$R^2$ values pooled across patients and epochs. Decoding dispersion was computed from all positive accuracy values from individual decoding resamples pooled across patients and epochs.
@@ -1144,7 +1142,7 @@ T \sim \chi^2_1.
 \]
 
 \subsection{Region Decoder Sampling}\label{subsec21}
-To assess the relative performance of brain regions in semantic category decoding, we fit population decoders using only units from specific regions. Those units that were on the border of their intended target or otherwise missed it according to visual inspection of the post-operative, coregistered CT scan in RAVE (Magnotti et al., 2020) were excluded from this analysis. To remove unit count as a confounding factor, we fit each population decoder with only 8 units. If we had more than 8 units for a particular region, we sampled 8 units 5 times and fit 10 category-sampled models for a total of 50 fits per brain region. Otherwise, we only fit 10 category-sampled models for patient regions where there were only 8 units. To increase training efficiency, we only performed full hyperparameter search on the first three sample models per region and then picked the hyperparameters that most reduced model complexity for subsequent fits. 
+To assess the relative performance of brain regions in semantic category decoding, we fit population decoders using only units from specific regions. Those units that were on the border of their intended target or otherwise missed it according to visual inspection of the post-operative, coregistered CT scan in RAVE \citep{bib88} were excluded from this analysis. To remove unit count as a confounding factor, we fit each population decoder with only 8 units. If we had more than 8 units for a particular region, we sampled 8 units 5 times and fit 10 category-sampled models for a total of 50 fits per brain region. Otherwise, we only fit 10 category-sampled models for patient regions where there were only 8 units. To increase training efficiency, we only performed full hyperparameter search on the first three sample models per region and then picked the hyperparameters that most reduced model complexity for subsequent fits. 
 
 \subsection{Decimation Analysis}\label{subsec22}
 To evaluate the performance growth of our encoding models, we fit Poisson GLMs from \textbf{6.8} using randomly sampled proportions of the per-day naturalistic dataset for each patient. We fit models using 1\%, 5\%, 10\%, 20\%, 30\%, 40\%, 50\%, 60\%, 70\%, 80\%, 90\%, and 100\% of the data with 100, 20, 10, 8, 7, 6, 5, 4, 3, 2, 2, and 1 resamples, respectively. 
@@ -1172,13 +1170,9 @@ We then use the same permutation testing scheme as \textbf{6.15} to evaluate the
 \]
 
 \subsection{Functional Drift}\label{subsec24}
-To assess representational drift of our semantic encoding model, we fit independent Poisson GLMs for each 2-hour epoch of the patient stay similar to \textbf{6.19}, except we used a global PCA to transform all the data along the same basis to ensure weight distances reflected genuine differences in tuning rather than a change of basis.
+To assess how our models performed on future data they were not trained on, we performed a functional drift analysis. To do this, we fit models identically to \textbf{6.8} except training data was restricted to the hours of 9 AM and 11 PM on a particular day and then we calculated test performance statistics on each day independently after the initial training day from the hours of 9 AM to 11 PM.
 
-To quantify representational drift, we compared the linear vector of weights for each model per-neuron using the cosine similarity score:
-\[
-\mathit{SIM}_\mathit{cos}=\frac{A\cdot B}{\lVert A\rVert \lVert B\rVert}
-\]
-To assess if weight distance changed as a function of time apart, we fit a WLS regression similar \textbf{6.18} of weight distance of models vs. time apart, binned by days apart in terms of calendar date (i.e., 9 PM on Tuesday and 11 AM on Wednesday would be considered one day apart in this scheme).
+We then fit WLS regressions similar to \textbf{6.18} on the model test performance data to assess if model performance changed significantly over time.
 
 \subsection{Tuning Function Drift}\label{subsec25}
 
