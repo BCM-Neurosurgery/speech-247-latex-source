@@ -28,7 +28,18 @@
 %%Note: the following reference styles support Namedate and Numbered referencing. By default the style follows the most common style. To switch between the options you can add or remove Numbered in the optional parenthesis. 
 %%The option is available for: sn-basic.bst, sn-chicago.bst%  
  
+% Toggle this for citation/layout mode:
+%   \preprintmodetrue  -> author-year preprint citations like (Author et al., 2024)
+%   \preprintmodefalse -> Nature submission formatting
+% If you switch modes and natbib complains, run `latexmk -C sn-article.tex` once.
+\newif\ifpreprintmode
+\preprintmodetrue
+
+\ifpreprintmode
+\documentclass[pdflatex,sn-basic]{sn-jnl}% Preprint mode with author-year citations
+\else
 \documentclass[pdflatex,sn-nature]{sn-jnl}% Style for submissions to Nature Portfolio journals
+\fi
 %%\documentclass[pdflatex,sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
 %%\documentclass[pdflatex,sn-mathphys-num]{sn-jnl}% Math and Physical Sciences Numbered Reference Style
 %%\documentclass[pdflatex,sn-mathphys-ay]{sn-jnl}% Math and Physical Sciences Author Year Reference Style
@@ -87,6 +98,13 @@
 \renewcommand{\printabstract}{}
 \renewcommand{\printkeywords}{}
 \makeatother
+
+\ifpreprintmode
+\setcitestyle{authoryear,round,semicolon,aysep={,},notesep={; }}
+\makeatletter
+\def\hyper@natlinkbreak#1#2{#1}
+\makeatother
+\fi
 
 \newcommand{\frontmatterstatement}[2]{%
   \par\medskip\noindent\textbf{#1}\par
@@ -781,7 +799,7 @@ All recorded epilepsy patients were undergoing neural monitoring for seizure loc
 Two Blue Yeti microphones, one directly above the patient bed and another in the corner of the room, recorded all ambient audio in the EMU, which included frequent conversations between the patient and others. Only the audio from the microphone above the patient bed was used for our analysis as it tended to record patient speech with more clarity. Eight Flir cameras located at various positions throughout the room recorded video of patient bed from various angles, capturing patient motions, expressions, and activities. Camera quality was valididated via manual inspection per patient and the camera with the clearest view of the patient's face was used for analysis.
 
 \subsection{Voice Activity Detection}\label{subsec3}
-To identify sections of our recording containing human speech, we used silero\_vad (GitHub: \href{https://github.com/snakers4/silero-vad}{snakers4/silero-vad})[8], which is widely used in many speech processing pipelines and is considered state-of-the-art for voice activity detection, including in noisy, naturalistic environments. The model was provided audio from the room mic in ten minute chunks, and it outputted intervals of time predicted to contain human speech. Intervals that were less than one minute apart were merged up to a maximum of thirty minutes and considered continuous speech chunks. Each speech chunk was then preprocessed independently.
+To identify sections of our recording containing human speech, we used silero\_vad (GitHub: \href{https://github.com/snakers4/silero-vad}{snakers4/silero-vad}, \citealp{bib43}), which is widely used in many speech processing pipelines and is considered state-of-the-art for voice activity detection, including in noisy, naturalistic environments. The model was provided audio from the room mic in ten minute chunks, and it outputted intervals of time predicted to contain human speech. Intervals that were less than one minute apart were merged up to a maximum of thirty minutes and considered continuous speech chunks. Each speech chunk was then preprocessed independently.
 
 \subsection{Transcript Assembly}\label{subsec4}
 To transcribe audio in the EMU, We ran each speech chunk through a modified version of OpenAI's Whisper called WhisperX (WhisperX, 2026) that uses acoustic embeddings to improve word segmentation. We then ran all words through GPT-2 (\href{https://huggingface.co/openai-community/gpt2-large}{openai-community/gpt2-large}) with a maximum within-chunk context window of 200 words. We used the last layer of each word's hidden state to derive semantic embeddings of spoken speech in the EMU.
