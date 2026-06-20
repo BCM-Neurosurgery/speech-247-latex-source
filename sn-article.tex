@@ -169,31 +169,46 @@
 
 \author[1]{\fnm{Paul J.} \sur{Steffan}}
 
+\author[7]{\fnm{Rahul} \sur{Hingorani}}
+
+\author[7]{\fnm{Mattson} \sur{Ogg}}
+
+\author[7]{\fnm{Han} \sur{Yi}}
+
 \author[1]{\fnm{Tomasz} \sur{Fraczek}}
 
-\author[1]{\fnm{Eleonora} \sur{Bartoli}}
+\author[1,4]{\fnm{Eleonora} \sur{Bartoli}}
 
-\author[2,3]{\fnm{Jay A.} \sur{Hennig}}
+\author[2,5]{\fnm{Jay A.} \sur{Hennig}}
 
-\author[1,3]{\fnm{Nicole R.} \sur{Provenza}}
-
-\author[1,3]{\fnm{Sameer A.} \sur{Sheth}}
+\author[1,2,3,4,5]{\fnm{Sameer A.} \sur{Sheth}}
 \equalcont{These authors contributed equally to this work.}
 
-\author*[1,3]{\fnm{Benjamin Y.} \sur{Hayden}}\email{Benjamin.Hayden@bcm.edu}
+\author[1,4,5,6]{\fnm{Nicole R.} \sur{Provenza}}
 \equalcont{These authors contributed equally to this work.}
 
-\affil*[1]{\orgdiv{Neurosurgery}, \orgname{Baylor College of Medicine}, \orgaddress{\street{7200 Cambridge St}, \city{Houston}, \postcode{77030}, \state{TX}, \country{United States}}}
+\author*[1,4,5]{\fnm{Benjamin Y.} \sur{Hayden}}\email{Benjamin.Hayden@bcm.edu}
+\equalcont{These authors contributed equally to this work.}
 
-\affil[2]{\orgdiv{Neuroscience}, \orgname{Baylor College of Medicine}, \orgaddress{\street{1 Baylor Plaza}, \city{Houston}, \postcode{77030}, \state{TX}, \country{United States}}}
+\affil*[1]{\orgdiv{Department of Neurosurgery}, \orgname{Baylor College of Medicine}, \orgaddress{\city{Houston}, \state{TX}, \country{United States}}}
 
-\affil[3]{\orgdiv{Neuroengineering Initiative and Electrical and Computer Engineering}, \orgname{Rice University}, \orgaddress{\street{6500 Main St}, \city{Houston}, \postcode{77030}, \state{TX}, \country{United States}}}
+\affil[2]{\orgdiv{Department of Neuroscience}, \orgname{Baylor College of Medicine}, \orgaddress{\city{Houston}, \state{TX}, \country{United States}}}
+
+\affil[3]{\orgdiv{Department of Psychiatry and Behavioral Sciences}, \orgname{Baylor College of Medicine}, \orgaddress{\city{Houston}, \state{TX}, \country{United States}}}
+
+\affil[4]{\orgdiv{Department of Electrical and Computer Engineering}, \orgname{Rice University}, \orgaddress{\city{Houston}, \state{TX}, \country{United States}}}
+
+\affil[5]{\orgdiv{Neuroengineering Initiative}, \orgname{Rice University}, \orgaddress{\city{Houston}, \state{TX}, \country{United States}}}
+
+\affil[6]{\orgdiv{Department of Bioengineering}, \orgname{Rice University}, \orgaddress{\city{Houston}, \state{TX}, \country{United States}}}
+
+\affil[7]{\orgdiv{Research and Exploratory Development Department}, \orgname{Johns Hopkins University Applied Physics Laboratory}, \orgaddress{\city{Laurel}, \state{MD}, \country{United States}}}
 
 %%==================================%%
 %% Sample for unstructured abstract %%
 %%==================================%%
 
-\abstract{The ability to derive neuron-level language coding models holds great scientific potential. Current approaches rely on brief, highly controlled experiments; however, applications that require large, rare, or naturalistic samples would benefit from the ability to infer neural coding from incidental everyday speech. Here we quantify the viability of a novel pipeline based on concurrent stereoencephalographic (sEEG) and continuous naturalistic speech recordings in twenty-one epilepsy patients over several days (over five million words and 800 hours of speech total). Our automated pipeline includes transcription, segmentation, and video-assisted diarization of speech, and alignment and spike detection of neural data. We quantified performance of semantic encoding and decoding models. We benchmarked models against ground-truth control datasets consisting of human-curated word-level temporal alignment and manually sorted spikes. We quantified dependence on dataset size, representational drift, and differences between six brain areas. Together, these findings establish the viability of automated, passive recording pipelines for characterizing neural-level language coding in naturalistic settings.}
+\abstract{The ability to derive neuron-level language coding models holds great scientific and clinical potential. Current approaches are limited by the scale and ethological validity of input data; applications requiring large, rare, or naturalistic samples in particular would benefit from the ability to infer neural coding from incidental everyday speech. Here we present a novel pipeline designed to leverage spontaneously captured naturalistic speech. This pipeline performs transcription, segmentation, and video-assisted diarization, as well as alignment and spike detection of neural data. We apply this pipeline to a dataset derived from 21 patients (6+ days each, over 800 hours and 5 million words total). We benchmark both encoding and decoding models against extensive and rare ground-truth control datasets consisting of human-curated word-level temporal alignment and manually sorted spikes. We further validate our approach by quantifying representational drift, effect of dataset size, and differences between six brain areas. Together, these findings demonstrate that meaningful neuronal embeddings can be recovered from automated, passive pipelines.}
 
 %%================================%%
 %% Sample for structured abstract %%
@@ -231,17 +246,16 @@
 \section{Introduction}\label{sec1}
 
 As we listen to speech, our brains continuously transform that input into
-structured neural representations \citep{bib1}. By combining measurements of
+structured neural representations. By combining measurements of
 neural responses with embeddings derived from large-language models, scientists
 can quantify the association between neural responses and the language that
-evokes them \citep{bib2,bib3,bib1,bib4,bib5,bib9,bib10,bib11}. This approach
-works with a range of neural measures, including fMRI, MEG, EEG, iEEG, and sEEG.
+evokes them. This approach works with a range of neural measures, including
+fMRI, MEG, EEG, and intracranial EEG \citep{bib1,bib2,bib3,bib4,bib5,bib9,bib10,bib11}.
 While each of these measures has its value, neuron-level recordings track both
 the high temporal resolution of speech and give the high spatial resolution of
-neural computation \citep{bib13,bib14,bib4,bib5,bib12}. As a result, they are
+neural computation \citep{bib13,bib14,bib4,bib5,bib12,bib48,bib49}. As a result, they are
 often used in brain--computer interfaces (BCIs; \citealp{bib102,bib16,bib17}), as well as in
-basic science studies focused on mechanism---what has been called ``how''
-questions \citep{bib18}.
+basic science studies focused on mechanism \citep[e.g.,][]{bib134}.
 
 Neuron-level language representations can be formalized using \textit{encoding
 models}, which relate patterns of brain activity to language model-derived
@@ -249,15 +263,14 @@ embeddings \citep{bib2,bib19,bib10,bib20,bib4,bib5,bib21,bib22}. \textit{Decodin
 models} provide a complementary perspective by asking whether neural data can
 classify linguistic stimuli \citep{bib23,bib2,bib24,bib25}. Both have potential
 value for both clinical and basic science; moreover, their joint application
-potentially allows for both improved interpretability and enhanced understanding \citep{bib68}.
+potentially allows for both improved interpretability and enhanced understanding \citep{bib68,bib135}.
 
 Most such studies rely on brief, highly controlled laboratory paradigms with
 laborious manual curation of speech (transcription, segmentation, diarization)
 and manual processing of neural data. As a
-result, it remains unknown whether robust semantic models can be recovered from
-long-duration, naturalistic speech encountered in everyday life, where language
-is noisy and has unpredictable, uncontrolled content
-\citep{bib27,bib28,bib29,bib30,bib31}. Modeling neural responses from incidental
+result, it remains unknown whether neural-level robust semantic models can be recovered from
+long-duration, naturalistic speech encountered in everyday life, and, if so, how
+accurate they will be \citep{bib27,bib28,bib29,bib30,bib31}. Modeling neural responses from incidental
 continuously recorded speech introduces several challenges
 \citep{bib32,bib27,bib22}. Everyday speech contains frequent dysfluencies,
 variable articulation, speaker overlap, and shifting acoustic contexts, all of
@@ -268,11 +281,11 @@ conversation preclude gold-standard manual spike sorting across long recordings
 \citep{bib37,bib38}. Although emerging automated pipelines for speech processing
 and spike detection now make approximate spike sorting in such datasets
 tractable, these tools remain imperfect and can introduce additional sources of
-noise and bias \citep{bib39,bib105,bib106,bib107,bib108,bib109,bib110,bib111}. One of the biggest barriers to assessing these
+noise and bias \citep{bib39,bib105,bib106,bib107,bib108,bib109,bib110,bib111}. One of the biggest barriers to evaluating these
 models is the lack of high quality ground-truthed datasets large enough to
-evaluate automated pipelines.
+evaluate automated pipelines. Despite these barriers, we hypothesize that automated pipelines can reliably be deployed to recover valid speech models.
 
-Despite these difficulties, naturalistic speech offers unique scientific and
+In any case, naturalistic speech offers unique scientific and
 practical advantages. Daily life provides an exceptionally rich and diverse
 linguistic input---often tens of thousands of words per day---far exceeding what
 can be presented in conventional experiments \citep{bib32,bib22,bib40,bib27}.
@@ -282,518 +295,190 @@ controlled conditions. In addition, continuously updated models derived from
 everyday speech are increasingly relevant for clinical technologies, including
 speech prosthetics and adaptive deep brain stimulation, which require robust
 neural--linguistic mappings outside the laboratory \citep{bib102,bib41,bib42}.
-These considerations motivate a central question: is there a viable path for
-estimating semantic encoding and decoding models from neuron-level responses and
-passively recorded naturalistic speech?
+Here we describe a novel pipeline deployed to analyze all incidental speech from
+within the EMU at a single hospital for 21 patients over 800 hours. Critically,
+we leverage a ground-truth dataset derived from real-world conversations that is
+manually aligned and diarized, along with corresponding manual spike sorting.
 
 \clearpage
 \section{Results}\label{sec2}
 
-\subsection{Neural-behavioral sync and modeling pipeline}
+We recorded speech and brain activity over a period of 6 to 11 days for 21 adult patients with medically refractory epilepsy undergoing intracranial seizure monitoring. We continuously recorded speech occurring during the entirety of each patient's stay (average: 6.72 $\pm$ 0.52 days) in our epilepsy monitoring unit (EMU, \textbf{Methods}). Two studio microphones, one directly above the patient's bed and another to the side, recorded 24/7 speech occurring within the patient room. Additionally, eight cameras located throughout the room, capturing various angles of the patient bed, recorded patient activity during their stay (\textbf{Figure 1A}). The microphones and cameras recorded many conversations with friends, family, clinical and research staff, as well as speech played from the television (\textbf{Figure 1B}). Intracranial EEG electrodes with microwires for collecting single-neuron spiking data (median: 56 contacts per patient, ranging from 16--96 contacts in various brain regions) recorded single and multi-unit spiking activity at 30 kHz for the entire patient stay, allowing us to sync microwire unit data at high temporal resolution.
 
-We recorded all naturalistic speech and brain activity over a period of 6--11
-days for 21 epilepsy patients. We recorded all speech occurring during the
-entirety of each patient's stay (average: 6.72 $\pm$ 0.52 days) in the
-epilepsy monitoring unit (EMU) at Baylor St. Luke's Hospital (\textbf{Methods}). Two
-studio microphones, one directly above the patient's bed and another to the
-side, recorded all speech occurring within the patient room. Additionally, eight
-cameras located throughout the room, capturing various angles of the patient bed,
-recorded all patient activity during their stay (\textbf{Figure 1A}). The microphones and
-cameras recorded many conversations with friends, family, clinical and research
-staff, as well as speech played from the television (\textbf{Figure 1B}).
+All speech data were processed through a voice activity detection model \citep{bib43} to find passages of audio data that contained identifiable human speech. Speech was then segmented into sentences and words using WhisperX \citep{bib39}. Multiple scoring metrics, including CTC log-likelihood, WhisperX quality score, spectral entropy, and DNSMOS quality scores were calculated for each sentence (\textbf{Methods}). Sentences at low-quality extrema (outside 0.75 $\times$ IQR) of their relative distributions were removed from the dataset (\textbf{Figure 1C}). We used a standard autothresholding algorithm \citep{bib112,bib113,bib114} to capture multi-unit spiking activity that could be aligned with word timestamps (\textbf{Figure 1C}, \textbf{Methods}). For convenience, we refer to each of these autolabelled sets as \textit{units}.
 
-All data were processed through a voice activity detection model called
-silero\_vad \citep{bib43} to find passages of audio data that contained
-identifiable human speech. Speech was then segmented into sentences and words
-using WhisperX \citep{bib39}. Multiple scoring metrics, including CTC
-log-likelihood, WhisperX quality score, spectral entropy, and DNSMOS quality
-scores were calculated for each sentence (\textbf{Methods}). Sentences at low-quality
-extrema (outside 0.75 $\times$ IQR) of their relative distributions were removed
-from the dataset (\textbf{Figure 1C}). We used a standard autothresholding algorithm
-\citep{bib112,bib113,bib114} to capture multi-unit spiking activity that could be
-aligned with word timestamps (\textbf{Figure 1C}, \textbf{Methods}). For convenience, we refer to each of these autolabelled sets as
-\textit{units}.
+To identify segments of patient speech, we used a multimodal active speaker detection (ASD) model \citep{bib44}. Audio-only diarization methods make frequent errors in naturalistic recording conditions, such as overlapping speakers and background noise, which led to us turning to multimodal methods \citep{bib45,bib46}. Specifically, we combined video with audio features to detect facial movements associated with speech to identify video frames in which the patient is likely to be speaking (\textbf{Figure 1D}, \textbf{Methods}). We used the speaker labels from this model to compare patient-only versus all speech in our downstream semantic coding models.
 
-To identify segments of patient speech, we used a multimodal active speaker
-detection (ASD) model called Lightweight and Robust Network for Active Speaker
-Detection (LR-ASD; \citealp{bib44}). Audio-only diarization methods make frequent
-errors in non-ideal recording conditions---such as overlapping speakers,
-background noise, etc.---which led to us turning to multimodal methods
-\citep{bib45,bib46}. This model uses video as well as audio features, such as
-facial movements and speech recognition, to identify video frames in which a
-particular person is likely to be speaking (\textbf{Figure 1D}, \textbf{Methods}). We used the
-speaker labels from this model to compare patient-only versus all speech in our
-downstream semantic coding models.
+Our \textbf{encoding models} involved regressing GPT-2 embeddings against spike counts for individual units \citep[cf.][]{bib4,bib48,bib49}. The model was implemented as a Poisson GLM with an L2 regularizer and a duration term included as an offset variable (\textbf{Figure 1E}). Models were fitted independently across neurons in bulk matrices in PyTorch (\textbf{Methods}). GPT-2 embeddings were calculated by taking the hidden state of the last layer of GPT-2-large from an inference pass of the current word, with the prior 200 words in the continuous speech stream taken as context (\textbf{Methods}). The final hidden layer was selected due to it being the natural contextual representation of a word as it is directly used for next-token prediction in the transformer architecture \citep{bib47}. Moreover, prior studies find qualitatively robust performance for neural encoders in the final layer of GPT-2 as well as earlier layers \citep{bib48,bib4,bib49}.
 
-Our \textbf{encoding models} involved regressing GPT-2 embeddings against spike
-counts for individual units \citep[cf.][]{bib4}. The model was implemented as a
-Poisson GLM with an L2 regularizer and a duration term included as an offset
-variable (\textbf{Figure 1E}). Models were fitted independently across neurons in bulk
-matrices in PyTorch (\textbf{Methods}). GPT-2 embeddings were calculated by taking the
-hidden state of the last layer of GPT-2-large, from an inference pass of the
-current word, with the prior 200 words in the continuous speech stream taken as
-context (\textbf{Methods}). The final hidden layer was selected due to it being the
-natural contextual representation of a word as it is directly used for next-token
-prediction in the transformer architecture \citep{bib47}. Moreover, prior studies
-find comparable performance for neural encoders between the final layer of GPT-2
-and earlier layers \citep{bib48,bib4,bib49}.
+Our \textbf{decoding models} involved training an XGBoost classifier with population firing rate activity (defined as the average neural firing rate across a word interval for a set of neurons) to predict broad semantic category labels, which included classes such as ``relationships'', ``numerical'', and ``medical'' (\textbf{Figure 1F}). XGBoost was chosen for its skill in learning nonlinear classifier boundaries, which is helpful for neural decoding \citep{bib50}. Moreover, XGBoost is frequently used with success for behavioral decoding from invasive neural recordings \citep{bib51,bib52}.
 
-Our \textbf{decoding models} involved training an XGBoost classifier with
-population firing rate activity (defined as the average neural firing rate across
-a word interval for a set of neurons) to predict broad semantic category labels,
-which included classes such as ``relationships'', ``numerical'', and ``medical''
-(\textbf{Figure 1F}). XGBoost was chosen for its skill in learning nonlinear classifier
-boundaries, which is helpful for neural decoding \citep{bib50}. Moreover, XGBoost
-is frequently used with success for behavioral decoding from invasive neural
-recordings \citep{bib51,bib52}.
 \clearpage
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{figure_panels/Figure_1_FINAL_Jun_13.pdf}
-\caption{\textbf{Figure 1 | Neural-behavioral sync and modeling pipeline.}}
+\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{figure_panels/Figure_1_FINAL_Jun_16.pdf}
 \label{fig:figure1}
 \end{figure}
-\figlegend{\textbf{Figure 1.} \textbf{A.} Picture and diagram showing the Epilepsy Monitoring Unit (EMU) where patients are kept for continuous neural recordings, with icons displaying the audio and video recording modalities present in the room and for research use. \textbf{B.} Graphic displaying the synchronization of audio and neural signal courtesy of our Blackrock Neurotech recording system that maintains a synchronized stream of both sampled at 30 kHz. \textbf{C.} Graphic displaying our automated speech extraction and autothresholding pipeline. \textbf{D.} Graphic displaying methodology for extracting emotion features from audio and mapping scores to individual words in our dataset. \textbf{E.} Graphic displaying the input structure of our Poisson GLM used for semantic and emotion encoding. \textbf{F.} Graphic displaying the input and model structure used for XGBoost semantic category decoding.}
+\figlegend{\textbf{Figure 1 -- Neural-behavioral sync and modeling pipeline.} \textbf{A.} Picture and diagram showing the Epilepsy Monitoring Unit (EMU) where patients are kept for intracranial seizure monitoring, with icons displaying the audio and video recording modalities present in the room and for research use. \textbf{B.} Synchronization of audio and neural signal courtesy of our Blackrock Neurotech recording system that maintains a synchronized stream of both, sampled at 30 kHz. \textbf{C.} Automated speech extraction and autothresholding pipeline. \textbf{D.} Methodology for extracting patient speaker scores from the audio-video stream and filtering patient-only speech segments. \textbf{E.} Input structure of our Poisson GLM used for semantic and emotion encoding. \textbf{F.} Input and model structure used for XGBoost semantic category decoding.}
 
 \clearpage
-\subsection{Dataset spanning hundreds of thousands of words with accurate
-transcription and diarization}
+\subsection{Dataset spanning millions of words with accurate transcription and diarization}
 
-We recorded a total of 5{,}270{,}665 words both spoken and heard by twenty-one
-participants. The number of words for each patient ranged from 40{,}351 to
-521{,}360. Seventeen of the patients had datasets with over 100{,}000 words.
-Across all patients, we collected a total of 871.2 hours of speech (spoken and/or
-heard), ranging between 7.1 and over 87.7 hours of speech per patient (\textbf{Figure 2A}).
-2A). We find the lexicon of spoken words to span a range of expected topics,
-including a large mode for medical terminology (\textbf{Figure 2B}). Additionally, we find
-that the timing of speech production and listening follows a cyclic pattern, with
-the number of words spoken peaking in the early afternoon hours and declining
-significantly late at night (\textbf{Figure 2C}).
+We recorded a total of 5{,}270{,}665 words both spoken and heard by 21 participants with simultaneous brain recordings. The number of words for each patient ranged from 40{,}351 to 521{,}360. Seventeen of the patients had datasets with over 100{,}000 words. Across all patients, we collected a total of 871.2 hours of speech (spoken and/or heard), ranging between 7.1 and over 87.7 hours of speech per patient (\textbf{Figure 2A}). Across the fourteen patients for which we have quality video data available, we collected a total of 156{,}397 words of patient-specific speech, ranging from 1{,}644 to 33{,}972 words per patient. We find the lexicon of spoken words to span a range of expected topics, including a large mode for medical terminology (\textbf{Figure 2B}). Additionally, we find that the timing of speech production and listening follows a cyclic pattern, with the number of words spoken peaking in the early afternoon hours and declining significantly late at night (\textbf{Figure 2C}).
 
-To identify speech uttered by the patient, we used a video- and audio-based
-active speaker detection (ASD) model called Lightweight and Robust Network for
-Active Speaker Detection (LR-ASD; \citealp{bib44}). Across the fourteen patients
-for which we have quality video data available, we collected a total of
-156{,}397 words of patient-specific speech, ranging from 1{,}644 to 33{,}972
-words per patient.
+\textit{Ground-truth accuracy:} We first quantified the accuracy of the WhisperX transcription and video-based diarization for our specific EMU-based context. For a subset of fifteen patients, we used sections of data in which study staff had planned conversations with the patient ($\sim$45 minutes/patient). We then performed precise manual temporal alignment and speaker identification (i.e., diarization) of every word spoken and heard \citep{bib53}. We used these data as a ground truth to evaluate the accuracy of the automated transcription and diarization of the same conversation. For transcription accuracy, we evaluated every sentence in our manual transcript with its corresponding match in the automatic transcript. We focused on semantically meaningful sentences, which included sentences with at least two non-filler words (filler words here refers to words like ``\textit{um}'', ``\textit{hmm}'', and ``\textit{haha}''). For each sentence in the manual transcript we searched for its corresponding sentence (if any) in the automated transcript within a 60 second window around the sentence. A match was considered to be the sentence with the lowest word error rate (WER) in the window as long as it was 0.5 or less, which was determined via Levenshtein distances \citep{bib115} (\textbf{Methods}). We found that, on average, 90.15\% of semantically meaningful sentences were matched in the automated transcript, with the automated transcript capturing the majority of sentences in the conversation for all patients (\textbf{Figure 2D}). This correspondence indicates WhisperX is generally successful in capturing instances of speech in the EMU, with infrequent errors resulting from known variables such as overlapping speakers and noisy audio segments \citep{bib39}.
 
-\textit{Ground-truth accuracy:} We first quantified the accuracy of the WhisperX
-transcription and video-based diarization for our specific EMU-based context. For
-a subset of fifteen patients, we found the section of the data in which
-researchers had a controlled conversation with the patient ($\sim$45
-minutes/patient), in which we then performed precise temporal alignment and
-speaker identification of every word spoken and heard \citep{bib53}. We used
-these data as a ground truth to evaluate the accuracy of the automated
-transcription and diarization of the same conversation. For transcription
-accuracy, we evaluated every sentence in our manual transcript with its
-corresponding match in the automatic transcript. We focused on semantically
-meaningful sentences, which included sentences with at least two non-filler words
-(filler words here refers to words like ``\textit{um}'', ``\textit{hmm}'', and
-``\textit{haha}''). For each sentence in the manual transcript we searched for
-its corresponding sentence (if any) in the automated transcript within a 60
-second window around the sentence. A match was considered to be the sentence with
-the lowest Word Error Rate (WER) in the window as long as it was 0.5 or less,
-which was determined via Levenshtein distances \citep{bib115} (\textbf{Methods}). We found that, on
-average, 90.15\% of semantically meaningful sentences were matched in the
-automated transcript, with the automated transcript capturing the majority of
-sentences in the conversation for all patients (\textbf{Figure 2D}). This indicates
-WhisperX is generally successful in transcribing human speech in the EMU, with
-infrequent errors resulting from known variables such as overlapping speakers and
-noisy audio segments \citep{bib39}.
+\textit{Quantifying semantic precision:} We calculated four summary statistics for sentence matches in order to assess the extent of transcription errors. The average word error rate similarity score was 0.89, indicating that only 11\% of the characters in automated transcripts differed from the true transcript on average. We next calculated the cosine similarity between matched sentence embeddings (derived via the all-mpnet-base-v2 version of the SBERT sentence transformers model; \citealp{bib54}). We found the mean cosine similarity score to also be 0.89. When looking at non-perfect matches (i.e., WER similarity $<$1.0), the average SBERT cosine similarity score is greater than the average WER similarity score ($p<0.001$). As such, even in the cases where minor word-level or syntactical errors are made, semantic meaning tended to be maintained for sentence matches. For example, the sentences ``I knew he had taken it \textit{because} I was just like tutoring with him \textit{one on one}'' and ``I knew he had taken it \textit{cause} I was just like tutoring with him,'' had a slightly lower WER similarity score of 0.8 whereas their SBERT cosine similarity is 0.981 (\textbf{Figure 2E}).
 
-\textit{Quantifying semantic precisions:} We calculated four summary statistics
-for sentence matches in order to assess the extent of transcription errors. The
-average word error rate similarity score was 0.89, indicating that only 11\% of
-the characters in automated transcripts differed from the true transcript on
-average. We next calculated the cosine similarity between matched sentence
-embeddings (derived via the all-mpnet-base-v2 version of the SBERT sentence
-transformers model; \citealp{bib54}). We found the mean cosine similarity score
-to also be 0.89. When looking at non-perfect matches (i.e., WER similarity
-$<$1.0), the average SBERT cosine similarity score is greater than the average
-WER similarity score ($p<0.001$). As such, even in the cases where minor
-word-level or syntactical errors are made, semantic meaning tends to be
-maintained for sentence matches. For example, the sentences ``I knew he had taken
-it \textit{because} I was just like tutoring with him \textit{one on one}'' and
-``I knew he had taken it \textit{cause} I was just like tutoring with him,'' have
-a slightly lower WER similarity score of 0.8 whereas their SBERT cosine
-similarity is 0.981 (\textbf{Figure 2E}).
+\textit{Quantifying temporal precision:} We also calculated the timestamp error of all matched sentences and words within those sentences to quantify temporal accuracy in word segmentation. Notably, the median absolute distance between matched sentences (defined from the midpoints of the sentences) was 115.50 milliseconds, and the median absolute distance between words within each matched sentence was only 71.68 milliseconds. This minimal discrepancy indicates timestamp errors are relatively minor and should not significantly affect estimates of semantic tuning. Overall, we found that transcription and segmentation errors were relatively minor and should not invalidate the possibility of generating semantic coding models from naturalistic speech (\textbf{Figure 2F}).
 
-\textit{Quantifying temporal precision:} We also calculated the timestamp error
-of all matched sentences and words within those sentences to quantify temporal
-accuracy in word segmentation. Notably, the median absolute distance between
-matched sentences was 115.50 milliseconds, and the median absolute distance
-between words within each matched sentence was only 71.68 milliseconds. This
-indicates timestamp errors are relatively minor and should not significantly
-affect estimates of semantic tuning. Overall, we find that transcription and
-segmentation errors are relatively minor and should not invalidate the
-possibility of generating semantic coding models from naturalistic speech (\textbf{Figure 2F}).
-
-To assess our diarization accuracy, we compared the outputs of LR-ASD to the
-manually annotated speakers for each sentence. LR-ASD provides a speaker
-confidence score for every frame of a video, so we labeled a speech segment as
-coming from the patient if the model labeled the patient as speaking for the
-majority of frames. Labelling in this way notably struggles in sections with
-overlapping speakers, similar to automated transcription. When calculating basic
-classification metrics and comparing them to each patient's base speaking rate
-(i.e., the portion of the conversation they spent talking), we find that the
-video-diarization model is significantly more precise than the base speaking rate
-for all tested patients for which we had video data available (\textbf{Figure 2G}).
-Moreover, for 50\% of patients with video available, LR-ASD is more than 70\%
-accurate when classifying a sentence as belonging to the patient. This is in line
-with other groups' findings that multimodal diarization models significantly
-outperform audio-only methods \citep{bib55,bib56}. We find that our pipeline
-struggles with recall for many patients dependent on video quality, meaning that
-while we can be reasonably confident that a sentence marked as ``patient'' is
-patient speech, we cannot be confident that we are necessarily detecting the
-majority of patient-spoken sentences. As such, for downstream analyses we do not
-make the assumption that sentences not classified as patient speech necessarily
-are spoken by other people. Overall, while automated diarization is not as
-comprehensively accurate as automated transcription, we consider it to be
-sufficiently reliable for analyses evaluating semantic tuning of patient-specific
-speech.
+To assess our diarization accuracy, we compared the outputs of LR-ASD to the manually annotated speakers for each sentence. LR-ASD provides a speaker confidence score for every frame of a video, so we labeled a speech segment as coming from the patient if the model labeled the patient as speaking for the majority of frames. Labelling in this way notably struggles in sections with overlapping speakers, similar to automated transcription. When calculating basic classification metrics and comparing them to each patient's base speaking rate (i.e., the portion of the conversation they spent talking), we find that the video-diarization model is significantly more precise than the base speaking rate for all tested patients for which we had video data available (\textbf{Figure 2G}). Moreover, for 50\% of patients with video available, LR-ASD is more than 70\% accurate when classifying a sentence as belonging to the patient. This result is in line with other groups' findings that multimodal diarization models significantly outperform audio-only methods \citep{bib55,bib56}. We find that our pipeline struggles with recall for many patients dependent on video quality, meaning that while we can be reasonably confident that a sentence marked as ``patient'' is patient speech, we cannot be confident that we are necessarily detecting the majority of patient-spoken sentences. As such, for downstream analyses we do not make the assumption that sentences not classified as patient speech necessarily are spoken by other people. Overall, while automated diarization is not as comprehensively accurate as automated transcription, we consider it to be sufficiently reliable for analyses evaluating semantic tuning of patient-specific speech.
 
 \clearpage
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{figure_panels/Figure_2_Jun11.pdf}
-\caption{\textbf{Figure 2 | Data quantity and annotation accuracy.}}
 \label{fig:figure2}
 \end{figure}
-\figlegend{\textbf{Figure 2.} \textbf{A.} 2D UMAP plot of all words collected from our pipeline, clustered by word2vec embeddings and colored by semantic category. Words generally cluster by their assigned semantic category. \textbf{B.} Bar plots showing the amount of speech data collected from our pipeline per patient, sorted by number of words. \textbf{C.} Line plot showing the average number of words across patients collected per 3 hour block starting the first midnight after patient admission, displaying a daily cyclic pattern. Background color displays the standard error per time block across patients. \textbf{D.} Lollipop plot displaying the portion of conversation sentences for which a corresponding match was found in the associated automated transcript. \textbf{E.} Example sentences displaying what potential pairs of matched sentences looked like and the types of transcription errors corrected for. \textbf{F.} Histograms describing transcription and segmentation errors across matched sentences in terms of WER similarity, SBERT cosine similarity, sentence timing errors, and word timing errors. \textbf{G.} Paired barplot summarizing diarization accuracy of annotated conversations compared to patient base speaking rate.}
+\figlegend{\textbf{Figure 2 -- Data quantity and annotation accuracy.} \textbf{A.} 2D UMAP plot of all words collected from our pipeline, clustered by word2vec embeddings and colored by semantic category. Words generally cluster by their assigned semantic category. \textbf{B.} Bar plots showing the amount of speech data collected from our pipeline per patient, sorted by number of words. \textbf{C.} Line plot showing the average number of words across patients collected per 3 hour block starting the first midnight after patient admission, displaying a daily cyclic pattern. Background color displays the standard error per time block across patients. \textbf{D.} Lollipop plot displaying the portion of conversation sentences for which a corresponding match was found in the associated automated transcript. \textbf{E.} Example sentences displaying what potential pairs of matched sentences looked like and the types of transcription errors corrected for. \textbf{F.} Histograms describing transcription and segmentation errors across matched sentences in terms of WER similarity, SBERT cosine similarity, sentence timing errors, and word timing errors. \textbf{G.} Paired barplot summarizing diarization accuracy of annotated conversations compared to patient base speaking rate.}
 
 \clearpage
 \subsection{Significant semantic encoding in the continuous speech dataset}
 
-We first aimed to understand whether our automated pipeline allows for the
-development of meaningful semantic encoding models. We analyzed recovered
-autothresholded unit data from all available brain structures: (1) hippocampus
-(HPC, 496 units), (2) amygdala (AMY, 88 units), (3) orbitofrontal cortex (OFC,
-104 units), (4) thalamus (THAL, centromedian nucleus, 64 units), (5) anterior
-cingulate cortex (ACC, 240 units), and (6) posterior cingulate cortex (PCC, 24
-units). We first examined all autothresholded units together. We
-collected between 16 to 64 units per patient, with the most units coming from the
-hippocampus and anterior cingulate and the least coming from the thalamus and
-posterior cingulate.
+We first aimed to understand whether our automated pipeline allows for the development of meaningful semantic encoding models. We analyzed recovered autothresholded unit data from all available brain structures: (1) hippocampus (HPC, 496 units), (2) amygdala (AMY, 88 units), (3) orbitofrontal cortex (OFC, 104 units), (4) thalamus (THAL, centromedian nucleus, 64 units), (5) anterior cingulate cortex (ACC, 240 units), and (6) posterior cingulate cortex (PCC, 24 units). We first examined all autothresholded units together. We collected between 16 to 64 units per patient, with the most units coming from the hippocampus and anterior cingulate and the least coming from the thalamus and posterior cingulate.
 
-We evaluated \textit{encoder model performance} using the pseudo $R^2$ score,
-which defines the relative performance gain over a null model that predicts spike
-counts from the average firing rate and duration of each word (\textbf{Methods}). Pseudo
-$R^2$ was chosen for its interpretability and inherent benchmarking: a score
-equal to zero indicates performance that is equal to our specified null model.
-Negative values indicate performance that was worse than the null model.
-Moreover, pseudo $R^2$ scores with mean firing rate nulls are commonly used to
-evaluate GLM performance in neural coding analyses \citep{bib57,bib58,bib59}. Our
-automated pipeline produced robust encoding models, as seen from average pseudo
-$R^2$ scores above 0 ($0.004 \pm 0.0003$ to $0.12 \pm 0.025$) for all patients
-(\textbf{Figure 3A}). Our response range is typical for neural encoding models
-\citep{bib57,bib58,bib59}, and significant scores above zero solidify that our
-automated pipeline is able to detect semantic tuning without manual data
-curation.
+We evaluated \textit{encoder model performance} using the pseudo $R^2$ score, which defines the relative performance gain over a null model that predicts spike counts from the average firing rate and duration of each word (\textbf{Methods}). Pseudo $R^2$ was chosen for its interpretability and inherent benchmarking: a score equal to zero indicates performance that is equal to our specified null model. Negative values indicate performance that was worse than the null model. Moreover, pseudo $R^2$ scores with mean firing rate nulls are commonly used to evaluate GLM performance in neural coding analyses \citep{bib57,bib58,bib59}. Our automated pipeline produced robust encoding models, as seen from average pseudo $R^2$ scores above 0 ($0.004 \pm 0.0003$ to $0.12 \pm 0.025$) for all patients (\textbf{Figure 3A}). Our response range is typical for neural encoding models \citep{bib57,bib58,bib59}, and significant scores above zero confirm that our automated pipeline is able to detect semantic tuning without manual data curation.
 
-We next compared encoding performance for patient-only speech identified by our
-video diarization pipeline with all ambient speech. We overall find encoding
-performance to be stronger for produced speech than all speech (\textbf{Figure 3B}).
-Specifically, we see a 2.42-fold increase (from 0.026 to 0.064) in pseudo $R^2$
-scores for patient-spoken speech. This is especially notable considering our
-patient-only models were trained on $50.52~(\pm 12.30)$ times less data on average. One reason
-produced speech may be more strongly encoded is that it requires attention, while
-ambient speech may be ignored \citep{bib35}.
+We next compared encoding performance for patient-only speech identified by our video diarization pipeline with all ambient speech. We overall found encoding performance to be stronger for produced speech than all speech (\textbf{Figure 3B}). Specifically, we see a 2.42-fold increase (from 0.026 to 0.064) in pseudo $R^2$ scores for patient-spoken speech. This finding is especially notable considering our patient-only models were trained on $50.52~(\pm 12.30)$ times less data on average. One reason produced speech may be more strongly encoded is that it requires attention, while ambient speech may be ignored \citep{bib35}.
 
 \subsubsection{Comparison with controlled tasks}
 
-We next compared embeddings derived from incidental speech to those derived from
-two highly controlled tasks: (1) a formalized but freewheeling conversation task
-\citep{bib53,bib49}, and (2) a podcast listening task \citep{bib4,bib48};
-(\textbf{Methods}). We find that encoding strength is significantly higher for our
-controlled datasets, with a $4.43~(\pm 1.67)$-fold average increase in encoding
-strength for the conversation task and an $8.59~(\pm 3.12)$-fold increase in
-encoding strength for the podcast task (\textbf{Figure 3C}).
+We next compared embeddings derived from incidental speech to those derived from two highly controlled tasks: (1) an unconstrained conversation task \citep{bib53,bib49}, and (2) a podcast listening task \citep{bib4,bib48}; (\textbf{Methods}). We found that encoding strength is significantly higher for our controlled datasets, with a $4.43~(\pm 1.67)$-fold average greater encoding strength for the conversation task and an $8.59~(\pm 3.12)$-fold greater encoding strength for the podcast task (\textbf{Figure 3C}).
 
-To gain insight into why the controlled tasks produce stronger encoding, we
-replicated this analysis using a version of both controlled datasets with
-autothresholded spikes instead of manually curated spikes. We find that using
-autothresholded spikes significantly improves encoder performance, with a
-$6.62~(\pm 1.58)$-fold average increase for the conversation task and a
-$1.47~(\pm 0.12)$-fold increase for the podcast task. Prior work has demonstrated
-that multiunit activity performs comparably to sorted spikes for population
-coding tasks and may even filter out useful signal \citep{bib60,bib61}, which may
-explain why spike sorting does not improve our model performance in the
-aggregate.
+To gain insight into why the controlled tasks produce stronger encoding, we replicated this analysis using a version of both controlled datasets with autothresholded spikes instead of manually curated spikes. We found that using autothresholded spikes significantly improves encoder performance, with a $6.62~(\pm 1.58)$-fold average increase for the conversation task and a $1.47~(\pm 0.12)$-fold increase for the podcast task. Prior work has demonstrated that multiunit activity performs comparably to sorted spikes for population coding tasks and may even filter out useful signal \citep{bib60,bib61}, which may explain why spike sorting does not improve our model performance in the aggregate.
 
-We then tested a version using uncorrected WhisperX transcripts rather than
-hand-labelled transcripts. We observe no significant change in performance from using
-uncorrected WhisperX transcripts compared to hand-labelled ones, with a
-$0.95~(\pm 0.037)$-fold change in the conversation task and $1.01~(\pm
-0.01)$-fold change in the podcast task. This suggests manual annotation may have
-modest, if any, benefits for derivation of semantic encoding models. Together,
-these results suggest that poorer performance in the naturalistic dataset likely
-occurs for reasons other than the limitations of automated data
-processing---such as representational drift or patient attention variability.
+We then tested a version using uncorrected WhisperX transcripts rather than hand-labelled transcripts. We observed no significant difference in performance from using uncorrected WhisperX transcripts compared to hand-labelled ones, with a $0.95~(\pm 0.037)$-fold change in the conversation task and $1.01~(\pm 0.01)$-fold change in the podcast task. This result suggests manual annotation may have modest, if any, benefits for derivation of semantic encoding models. Together, these results suggest that poorer performance in the naturalistic dataset likely occurs for reasons other than the limitations of automated data processing---such as representational drift or patient attention variability.
 
 \subsubsection{Variability in encoding over time}
 
-We next compared performance across days. We trained encoding models from each
-individual day in each patient's stay and compared them to models trained on the
-entire patient stay (averaging 6.72 days, ranging from 6--11 days). We find that
-models trained on individual days performed significantly better than models
-trained with data from all days, with a $3.06~(\pm 0.44)$-fold increase in pseudo
-$R^2$ scores on average (\textbf{Figure 3D}). Thus, day-to-day variability is a major
-driver of variation in encoding model performance.
+We next evaluated how pooling data across days affects our model performance compared to training models on single-day data. We trained encoding models from each individual day in each patient's stay and compared them to models trained on the entire patient stay (averaging 6.72 days, ranging from 6--11 days). We find that models trained on individual days performed significantly better than models trained with data from all days, with $3.06~(\pm 0.44)$-fold greater pseudo $R^2$ scores on average (\textbf{Figure 3D}). Thus, day-to-day variability is a major driver of variation in encoding model performance.
 
-While during experiments we are able to limit the number of distractions and
-ensure patients are focused on the task at hand, this is not possible in a
-naturalistic setting and neural tuning to semantics may very well differ based on
-the stimulus the patient is (or isn't) paying attention to \citep{bib35}. To
-probe attentional changes in model performance, we trained encoding models on
-two-hour epochs across the patient stay, such that we could compare encoding
-strength at 2 PM and 7 PM on the same day, for example. We assessed whether epoch
-encoding strength correlated with the portion of time in the epoch the patient
-spent speaking, which can potentially be viewed as a proxy for patient attention
-and engagement with ambient speech. For example, the portion would be 0 when the
-patient is passively listening to the television while engaged in a separate
-activity, while it could be as high as 0.7 when they are actively engaged in
-conversation with another person. We find that, when regressing patient speech
-fraction against epoch encoding strength via weighted least squares (\textbf{Methods}),
-81\% of patients have a positive trend (31\% significant), whilst 19\% of patients
-have a negative trend (6\% significant; \textbf{Figure 3E}). While this result may be a
-consequence of our units being significantly more tuned to patient speech, it may
-also indicate that overall, semantic tuning in our units is significantly
-correlated with the portion of patient speech engagement, potentially indicating
-that patient engagement and/or attention is a significant factor in developing
-high-performing semantic coding models.
+While during formal experiments we are able to limit the number of distractions and ensure patients are focused on the task, directing patient attention is not possible in a naturalistic setting, and neural tuning to semantics may differ based on the stimulus the patient is (or is not) paying attention to \citep{bib35}. To probe attentional changes in model performance, we trained encoding models on two-hour epochs across the patient stay, such that we could compare encoding strength at 2 PM and 7 PM on the same day, for example. We assessed whether epoch encoding strength correlated with the portion of time in the epoch the patient spent speaking, which can potentially be viewed as a proxy for patient attention and engagement with ambient speech. For example, the portion would be 0 when the patient is passively listening to the television while engaged in a separate activity, while it could be as high as 0.7 when they are actively engaged in conversation with another person. We find that, when regressing patient speech fraction against epoch encoding strength via weighted least squares (see: \textbf{Methods}), 62\% of patients have a positive trend (56\% significant), while 38\% of patients have a negative trend (19\% significant, \textbf{Figure 3E}). While this result may be a consequence of our units being significantly more tuned to patient speech, it may also indicate that overall, semantic tuning in our units is significantly correlated with the portion of patient speech engagement, potentially indicating that patient engagement and/or attention is a significant factor in developing high-performing semantic coding models.
 
 \subsubsection{Comparing brain regions}
 
-We find, in order, PCC, ACC, HPC, and thalamus to have the best overall
-performance. We find OFC and amygdala to have the worst performance (\textbf{Figure 3F}).
-This corroborates findings from existing literature implicating hippocampus in
-higher-level semantic/symbolic language processing and findings of distributed
-semantic networks throughout the brain \citep{bib4,bib2}.
+We found all recorded brain regions (median pseudo $R^2 > 0$) generate significant semantic encoding models from the naturalistic speech dataset. We found PCC, ACC and HPC to be the highest performing brain regions, with the remaining brain regions ranked in the following decreasing order: thalamus, OFC, and amygdala (\textbf{Figure 3F}). This result corroborates findings from existing literature implicating hippocampus in higher-level semantic/symbolic language processing and findings of distributed semantic networks throughout the brain \citep[e.g.,][]{bib2}.
 
 \clearpage
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{figure_panels/Figure_3_Jun11.pdf}
-\caption{\textbf{Figure 3 | Significant semantic coding from naturalistic speech data.}}
+\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{figure_panels/Figure_3_Jun16.pdf}
 \label{fig:figure3}
 \end{figure}
-\figlegend{\textbf{Figure 3.} \textbf{A.} Bar plot showing average semantic encoding performance per patient across all significant units with standard error bars, sorted by model performance. Number of significant units are listed above each bar. \textbf{B.} Paired line plot comparing semantic encoding performance between all speech and patient-only speech conditions. \textbf{C.} Grouped bar plot showing comparative semantic encoding performance between the naturalistic speech and experimental datasets (conversation + podcast), with automated conditions for each task. \textbf{D.} Paired line plot comparing semantic encoding performance between all speech and within-day speech conditions. \textbf{E.} Line plot with best fit lines and summary charts showing relationship between epoch encoding strength and portion of time patient spent speaking. \textbf{F.} Boxplot showing semantic encoding model performance distribution by brain region.}
+\figlegend{\textbf{Figure 3 -- Significant semantic coding from naturalistic speech data.} \textbf{A.} Bar plot showing average semantic encoding performance per patient across all significant units with standard error bars, sorted by model performance. Number of significant units are listed above each bar. \textbf{B.} Paired line plot comparing semantic encoding performance between all speech and patient-only speech conditions. \textbf{C.} Grouped bar plot showing comparative semantic encoding performance between the naturalistic speech and experimental datasets (conversation + podcast), with automated conditions for each task. \textbf{D.} Paired line plot comparing semantic encoding performance between all speech and within-day speech conditions. \textbf{E.} Line plot with best fit lines and summary charts showing relationship between epoch encoding strength and portion of time patient spent speaking. \textbf{F.} Boxplot showing semantic encoding model performance distribution by brain region.}
 
-\clearpage  
-\subsection{Significant semantic decoding from naturalistic speech data}
+\clearpage
+\subsection{Significant semantic decoding in the continuous speech dataset}
 
-Decoding models of semantics play a complementary role to encoding models, and
-are especially interesting for BCI purposes \citep{bib16,bib62,bib22,bib63}. To
-simplify the semantic decoding problem, we classified all spoken words into one
-of ten semantic categories \citep[Methods; cf.][]{bib4}. We evaluated decoder
-model performance using overall accuracy scores (ratio of correctly identified
-words to total number of words). With ten semantic categories, chance was 10\%.
+Decoding models of semantics play a complementary role to encoding models and are especially interesting for BCI purposes \citep{bib16,bib62,bib22,bib63}. To simplify the semantic decoding problem, we classified all spoken words into one of ten semantic categories \citep[\textbf{Methods}; cf.][]{bib4}. We evaluated decoder model performance using overall accuracy scores (ratio of correctly identified words to total number of words). With ten semantic categories, chance performance was 10\%.
 
-Our pipeline produces significant decoding. All but one patient have more than
-20\% semantic decoding accuracy (average accuracy: $20.9\% \pm 0.08\%$; \textbf{Figure 4A}). In contrast to our encoding models, we find that decoding is more accurate
-(although modestly so) for all speech versus patient-only speech. Specifically,
-we see an $18\%~(\pm 2.6\%)$ decrease in classification accuracy.
+Our pipeline produces significant decoding. Models for all patients but one decode semantics with more than 20\% accuracy (average accuracy: $20.9\% \pm 0.08\%$, \textbf{Figure 4A}). In contrast to our encoding models, we find that decoding is more accurate (although modestly so) for all speech versus patient-only speech. Specifically, we see $18\%~(\pm 2.6\%)$ lower classification accuracy for patient-only speech (\textbf{Figure 4B}).
 
-\subsubsection{Decoding: comparison with controlled tasks}
+\subsubsection{Decoding: comparison with ground-truth datasets}
 
-Decoding models trained on all speech perform better than models trained on
-controlled tasks: we saw a $36\%~(\pm 1.8\%)$ decrease in performance for the
-conversation task and an $11\%~(\pm 2.5\%)$ decrease for the podcast task.
-Decoding may be more robust to confounds (patient attention, variable neural
-quality, etc.) not found in our controlled tasks than our single-unit confounds
-are. As a result, population decoding models may benefit more from the additional
-training data available via automated parsing from naturalistic environments.
+Unlike encoding, decoding models trained on all speech perform better than models trained in our ground-truth datasets: we saw a $36\%~(\pm 1.8\%)$ lower performance for the conversation task and an $11\%~(\pm 2.5\%)$ lower performance for the podcast task (\textbf{Figure 4C}). Decoding may be more robust to confounds (patient attention, variable neural quality, etc.) not found in our controlled tasks than our single-unit confounds are. As a result, population decoding models may benefit more from the additional training data available via automated parsing from naturalistic environments.
 
-As with our encoding analyses, manual curation of spikes and transcript labels do
-not significantly improve the accuracy of semantic decoder models for our
-controlled tasks. We find no significant difference (i.e., overlapping standard
-errors) in the decoder accuracy for models trained with sorted versus
-autothresholded spikes. Moreover, while we find decoder performance is $4.0\%~(\pm
-1.3\%)$ less accurate with automated transcripts in the podcast task, it is
-slightly more accurate ($18.3\% \pm 3.2\%$) with automated transcripts in the
-conversation task. Overall, decoders appear to be more robust to the inaccuracies
-produced by automated neural and behavioral processing models than encoding
-models.
+As with our encoding analyses, manual curation of spikes and transcript labels do not significantly improve the accuracy of semantic decoder models for our controlled tasks. We find no significant difference (i.e., overlapping standard errors) in the decoder accuracy for models trained with sorted versus autothresholded spikes. Moreover, while we find decoder performance is $4.0\%~(\pm 1.3\%)$ less accurate with automated transcripts in the podcast task, decoder performance is actually slightly more accurate ($18.3\% \pm 3.2\%$) with automated transcripts in the conversation task. Overall, decoders appear to be more robust to the inaccuracies produced by automated neural and behavioral processing models than encoding models.
 
-\subsubsection{Variability over time}
+\subsubsection{Decoding: variability in performance over time}
 
-Decoding models are more stable over time than encoding models. Indeed,
-single-day model performance is worse than full multi-day dataset decoding
-(decrease of $9\% \pm 3.5\%$). Thus, the benefit of additional training data
-outweighs cross-day neural variability.
+Decoding models are more stable over time than encoding models. Indeed, single-day model performance is $9\%~(3.5\%)$ worse than full multi-day dataset decoding (\textbf{Figure 4D}). Thus, the benefit of additional training data outweighs the impediment of cross-day neural variability.
 
-We also find that decoding accuracy is better for patients with more recorded
-units than fewer (\textbf{Figure 4E}). This provides further support for the notion that
-larger populations of neural data allow for the training of more accurate models
-of human behavior that take advantage of the redundancy of single-neuron tuning
-\citep{bib64,bib65,bib61} and are robust to failures and fluctuations that occur
-at the single-unit level.
+We also find that decoding accuracy is better for patients with more recorded units than fewer (\textbf{Figure 4E}). This result provides further support for the notion that larger populations of neural data allow for the training of more accurate models of human behavior that take advantage of the redundancy of single-neuron tuning \citep{bib64,bib65,bib61} and are robust to failures and fluctuations that occur at the single-unit level.
 
-We also assessed the variability of semantic decoding across the two-hour epoch
-scale and probed whether the same attentional variation as in encoding emerged.
-Overall, we find a similar if less pronounced trend, where 53\% of patients have a
-positive trend (20\% significant), whilst 47\% of patients have a negative trend
-(6\% significant; \textbf{Figure 4F}). This mirrors our encoding findings and corroborates
-the idea that patient engagement may improve the performance of our semantic
-coding models. Decoding performance is more stable across 2-hour epochs than
-encoding performance: our epoch decoding performance has an $85.9\%~(\pm 0.16\%)$
-smaller coefficient of variation than our epoch encoding performance ($p<0.0001$;
-Feltz--Miller test, \textbf{Methods}; \textbf{Figure 4G}).
+We also assessed the variability of semantic decoding across the two-hour epoch scale and probed whether the same attentional variation as in encoding emerged. Overall, we find a similar if less pronounced trend, where 53\% of patients have a positive trend (20\% significant), whilst 47\% of patients have a negative trend (6\% significant, \textbf{Figure 4F}). This result mirrors our encoding findings and corroborates the idea that patient engagement may improve the performance of our semantic coding models. Decoding performance is also more stable across 2-hour epochs than encoding performance: our epoch decoding performance has an $85.9\%~(\pm 0.16\%)$ smaller coefficient of variation than our epoch encoding performance ($p<0.0001$; Feltz--Miller test, see: \textbf{Methods}, \textbf{Figure 4G}).
 
 \subsubsection{Decoding: comparing brain regions}
 
-We trained decoding models separately for each brain region. All brain regions
-performed significantly above chance, but worse than models trained using all
-available units across regions ($p<0.001$). As with the encoding models, the PCC
-and HPC are the highest performing regions, followed by the thalamus and ACC
-(\textbf{Figure 4H}).
+We trained decoding models separately for each brain region. All brain regions performed significantly above chance, but worse than models trained using all available units across regions ($p<0.001$). As with the encoding models (see above), the PCC and HPC are the highest performing regions, followed by the thalamus and ACC (\textbf{Figure 4H}).
 
 \clearpage
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{figure_panels/Figure_4_Jun11.pdf}
-\caption{\textbf{Figure 4 | Significant semantic decoding from naturalistic speech data.}}
+\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{figure_panels/Figure_4_Jun16.pdf}
 \label{fig:figure4}
 \end{figure}
-\figlegend{\textbf{Figure 4.} \textbf{A.} Bar plot showing average semantic decoding performance per patient across all significant units with standard error bars, sorted by model performance. Number of significant models are listed above each bar. \textbf{B.} Paired line plot comparing semantic decoding performance between all speech and patient-only speech conditions. \textbf{C.} Grouped bar plot showing comparative semantic decoding performance between the naturalistic speech and experimental datasets (conversation + podcast), with automated conditions for each task. \textbf{D.} Paired line plot comparing semantic decoding performance between all speech and within-day speech conditions. \textbf{E.} Scatterplot with line of best fit highlighting trend between unit population size and model performance. \textbf{F.} Line plot with best fit lines and summary charts showing relationship between epoch decoding strength and portion of time patient spent speaking. \textbf{G.} Line plots showcasing epoch model performance variation over time. \textbf{H.} Boxplot showing semantic decoding model performance distribution by brain region.}
+\figlegend{\textbf{Figure 4 -- Significant semantic decoding from naturalistic speech data.} \textbf{A.} Bar plot showing average semantic decoding performance per patient across all significant units with standard error bars, sorted by model performance. Number of significant models are listed above each bar. \textbf{B.} Paired line plot comparing semantic decoding performance between all speech and patient-only speech conditions. \textbf{C.} Grouped bar plot showing comparative semantic decoding performance between the naturalistic speech and experimental datasets (conversation + podcast), with automated conditions for each task. \textbf{D.} Paired line plot comparing semantic decoding performance between all speech and within-day speech conditions. \textbf{E.} Scatterplot with line of best fit highlighting trend between unit population size and model performance. \textbf{F.} Line plot with best fit lines and summary charts showing relationship between epoch decoding strength and portion of time patient spent speaking. \textbf{G.} Line plots showcasing epoch model performance variation over time. \textbf{H.} Boxplot showing semantic decoding model performance distribution by brain region.}
 
-\clearpage  
+\clearpage
 \subsection{Encoding model performance as a function of dataset size}
 
-The scale of our dataset lets us determine the effect of data quantity on
-performance. When we randomly decimate our per-day datasets to portions ranging
-from 1\% to 90\% of the data (\textbf{Methods}), we generally find that additional
-training data improves encoding model performance (\textbf{Figure 5A}). That performance
-shows marginal decline, although we do not detect any saturation. Our best fit
-curve is modelled after the Hill equation, which is commonly used for sigmoidal
-biological relationships (\textbf{Methods}). Moreover, we found the Hill equation to
-significantly fit our data according to permutation testing ($p<0.01$) and it
-also better explained experimental data than a weighted least squares fit
-($\mathrm{Loss}_{\mathrm{hill}} < \mathrm{Loss}_{\mathrm{wls}}$; $d\mathrm{Loss}
-= 90.4$).
+The scale of our dataset lets us determine the effect of data quantity on performance. When we randomly decimate our per-day datasets to portions ranging from 1\% to 90\% of the data (\textbf{Methods}), we generally find that additional training data improves encoding model performance (\textbf{Figure 5A}). That performance shows marginal decline, although we do not detect any saturation. Our best fit curve is modelled after the Hill equation, which is commonly used for sigmoidal biological relationships (\textbf{Methods}). Moreover, we found the Hill equation to significantly fit our data according to permutation testing ($p<0.01$) and it also better explained experimental data than a weighted least squares fit ($\mathrm{Loss}_{\mathrm{hill}} < \mathrm{Loss}_{\mathrm{wls}}$; $d\mathrm{Loss} = 90.4$).
 
-We next quantified the minimum amount of data needed to generate statistically
-meaningful results. We calculate pseudo $R^2$ by comparing to a simpler model
-using word duration only. We find that model performance exceeds durational null
-performance when using at least $4.7\%~(\pm 0.04\%)$ of the dataset on average.
+We next quantified the minimum amount of data needed to generate statistically meaningful results. We calculate pseudo $R^2$ by comparing it to a simpler model using word duration only. We find that model performance exceeds durational null performance when using at least $4.7\%~(\pm 0.04\%)$ of the dataset on average.
 
-We then repeated these analyses using number of words, instead of number of
-minutes. As with minutes, we find a clear logistic growth curve, with performance
-exceeding null at around $724.3~(\pm 3.4)$ words (\textbf{Figure 5B}). The Hill equation similarly
-significantly fit our data and performed better than a simple linear fit
-($\mathrm{Loss}_{\mathrm{hill}} < \mathrm{Loss}_{\mathrm{wls}}$; $d\mathrm{Loss} =
--307.5$).
+We then repeated these analyses using number of words, instead of number of minutes. As with minutes, we find a clear logistic growth curve, with performance exceeding null at around $724~(\pm 3)$ words (\textbf{Figure 5B}). The Hill equation similarly significantly fit our data and performed better than a simple linear fit ($\mathrm{Loss}_{\mathrm{hill}} < \mathrm{Loss}_{\mathrm{wls}}$; $d\mathrm{Loss} = -307.5$).
 
-We find that the proportion of units significantly tuned to our semantic
-embeddings also increased according to a logistic growth curve, with 1\% of data
-yielding an average of $22.2\%~(\pm 0.2\%)$ significant units before saturating to
-an average of $91.6\%~(\pm 0.6\%)$ of units at around 70\% of each dataset (\textbf{Figure 5C}). Contextual transformer embeddings capture many aspects of language relevant
-to word meaning---including syntax, grammar, word order, surrounding
-context---within a distributed high-dimensional representation \citep{bib66},
-which means a unit significantly tuned to these embeddings could be responsive to
-any combination of these features. Moreover, the general mixed selectivity of
-neurons in higher cortical regions \citep{bib67} may explain how weak
-correlations with some dimensions of the transformer embedding space may reveal
-themselves at sufficient sample size. Our analysis showcases a classic power
-curve, in that only the most prominent effects are recognizable at smaller sample
-sizes whereas weaker effects only emerge when there is enough data to detect them.
+We find that the proportion of units significantly tuned to our semantic embeddings also increased according to a logistic growth curve, with 1\% of data yielding an average of $22.2\%~(\pm 0.2\%)$ significant units before saturating to an average of $91.6\%~(\pm 0.6\%)$ of units at around 70\% of each dataset (\textbf{Figure 5C}). Contextual transformer embeddings capture many aspects of language relevant to word meaning---including syntax, grammar, word order, surrounding context---within a distributed high-dimensional representation \citep{bib66}, which means a unit significantly tuned to these embeddings could be responsive to any combination of these features. Moreover, the general mixed selectivity of neurons in higher cortical regions \citep{bib67} may explain how weak correlations with some dimensions of the transformer embedding space may reveal themselves at sufficient sample size. Our analysis showcases a classic power curve, in that only the most prominent effects are recognizable at smaller sample sizes whereas weaker effects only emerge when there is enough data to detect them.
 
 \clearpage
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{figure_panels/Figure_5_Jun12.pdf}
-\caption{\textbf{Figure 5 | Decimation analysis.}}
 \label{fig:figure5}
 \end{figure}
-\figlegend{\textbf{Figure 5.} \textbf{A.} Boxplot with Hill curve showing semantic encoding performance growth as function of dataset portion used for training. \textbf{B.} 2D histogram with Hill curve showing semantic encoding performance growth as function of words in sample. \textbf{C.} Scatterplot of fraction of significant semantic encoding units as a function of dataset portions, with portion averages as an overlaid line plot.}
+\figlegend{\textbf{Figure 5 -- Decimation analysis.} \textbf{A.} Boxplot with Hill curve showing semantic encoding performance growth as function of dataset portion used for training. \textbf{B.} 2D histogram with Hill curve showing semantic encoding performance growth as function of words in sample. \textbf{C.} Scatterplot of fraction of significant semantic encoding units as a function of dataset portions, with portion averages as an overlaid line plot.}
 
 \clearpage
-\subsection{Assessing differences in coding models across time (functional
-drift)}
+\subsection{Assessing differences in coding models across time (functional drift)}
 
-Encoding models are not the same day to day. Specifically, we find that models
-fit on one day and tested on a different day are less similar than two models fit
-on different subsets of data on the same day. As a result, model performance
-decreases as a function of the temporal separation between the training day and
-the test day ($p<0.001$; \textbf{Figure 6A}). This effect is strongest when comparing
-within-day testing to the next-day ($+1$), where the median pseudo $R^2$ score
-dips from $0.034~(\pm 0.006)$ to $-0.027~(\pm 0.008)$ and tends to grow more
-negative over time ($R^2$ scores are normalized in reference to null performance,
-so decreases below zero are meaningful). Moreover, the portion of significant
-units plummets from $97.8\%~(\pm 1.2\%)$ on average to $7.8\%~(2.4\%)$ after just
-one day of separation (\textbf{Figure 6B}). Overall, we find that significant model
-degradation occurs for our single-unit encoding models after even just one day of
-temporal separation, rendering most models unreliable for downstream use cases
-after their original training date.
+We wanted to assess the stability of our encoding and decoding model performance due to known phenomena of representational drift and recording inconsistencies \citep{bib136,bib137}. Importantly, we wanted to address the rate of model degradation over time and whether it differed for unit encoding versus population decoding models, as such questions hold significant ramifications for the development of generalizable neural coding models of behavior.
 
-Unlike encoding models, decoding model performance does not significantly
-decrease with distance in time ($p = 0.6450$; \textbf{Figure 6C}). However, similar to
-encoding, the proportion of significant models does decrease significantly over
-time (WLS, $p<0.001$), albeit at a much more steady rate (\textbf{Figure 6D}).
-Specifically, the percent of significant models starts at $95.3\%~(\pm 1.9\%)$ and
-degrades to $65.6\%~(\pm 9.1\%)$ of models still performing with statistical
-significance after eight days from their original training date. The relative
-stability of decoding drift is apparent when we compare the distributions of
-regression slopes of individual model performance between encoding and decoding.
-We found model decoding slopes to be significantly higher than model encoding
-slopes (one-tailed $t$-test, $p<0.001$; \textbf{Figure 6E}). Moreover, the overwhelming
-majority of encoding models have negative slopes (meaning their performance
-decreases over time), while the average decoding model has a positive slope.
+We find that, for encoding models, model performance decreases as a function of the temporal separation between the original training day and the subsequent test day ($p<0.001$, \textbf{Figure 6A}). This effect is strongest when comparing within-day testing to the next-day ($+1$), where the median pseudo $R^2$ score dips from $0.034~(\pm 0.006)$ to $-0.027~(\pm 0.008)$ and tends to grow more negative over time ($R^2$ scores are normalized in reference to null performance, so decreases below zero are meaningful). Moreover, the portion of significant units plummets from $97.8\%~(\pm 1.2\%)$ on average to $7.8\%~(2.4\%)$ after just one day of separation (\textbf{Figure 6B}). Overall, we find that significant model degradation occurs for our single-unit encoding models after even just one day of temporal separation, rendering most models unreliable for downstream use cases after their original training date.
 
-We next investigated the differences between the tuning functions for our
-single-unit encoding models. The vectors of weights of our models can be thought
-of as tuning functions that map behavioral representations to neural activity
-\citep{bib53,bib68,bib69}. We find that as the amount of time between training
-sets increases, the cosine distance of our tuning functions increases very
-gradually (WLS, $p = 0.0427$; \textbf{Figure 6F}). Thus, beyond performance loss, the
-temporal degradation in single-unit semantic encoding is accompanied by slight
-drift in the semantic tuning functions themselves. Therefore, while maximizing
-recording stability is an important avenue for the development of consistent
-semantic coding models, additional model-level corrections (such as aligning
-latent neural embeddings; \citealp{bib70}) are also likely needed to account for
-inherent neural variability across time.
+Unlike encoding models, decoding model performance does not significantly decrease with distance in time ($p = 0.6450$, \textbf{Figure 6C}). However, similar to encoding, the proportion of significant models does decrease significantly over time (weighted least squares, $p<0.001$), albeit at a much more steady rate (\textbf{Figure 6D}). Specifically, the percent of significant models starts at $95.3\%~(\pm 1.9\%)$ and degrades to $65.6\%~(\pm 9.1\%)$ of models still performing with statistical significance after eight days from their original training date. The relative stability of decoding drift is apparent when we compare the distributions of regression slopes of individual model performance between encoding and decoding. We found model decoding slopes to be significantly higher than model encoding slopes (one-tailed $t$-test, $p<0.001$, \textbf{Figure 6E}). Moreover, the overwhelming majority of encoding models have negative slopes (meaning their performance decreases over time), while the average decoding model has a positive slope.
+
+We next investigated the differences between the tuning functions for our single-unit encoding models. The vectors of weights of our models can be thought of as tuning functions that map behavioral representations to neural activity \citep{bib53,bib68,bib69}. We find that as the amount of time between training sets increases, the cosine distance of our tuning functions increases very gradually (weighted least squares, $p=0.0427$, \textbf{Figure 6F}). Thus, beyond performance loss, the temporal degradation in single-unit semantic encoding is accompanied by slight drift in the semantic tuning functions themselves. Therefore, while maximizing recording stability is an important avenue for the development of consistent semantic coding models, additional model-level corrections (such as aligning latent neural embeddings; \citealp{bib70}) are also likely needed to account for inherent neural variability across time.
 
 \clearpage
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{figure_panels/Figure_6_Jun11.pdf}
-\caption{\textbf{Figure 6 | Representational drift.}}
 \label{fig:figure6}
 \end{figure}
-\figlegend{\textbf{Figure 6.} \textbf{A.} Boxplot with line of best fit showing encoding model performance changes across time in days. \textbf{B.} Scatterplot of fraction of significant semantic encoding units as a function of test distance in days. \textbf{C.} Boxplot with line of best fit showing decoding model performance changes across time in days. \textbf{D.} Scatterplot of fraction of significant semantic decoding models as a function of test distance in days. \textbf{E.} Density plots showing distribution of encoding model performance slopes (green) and decoding model performance slopes (purple). \textbf{F.} Scatterplot with line of best fit showing changes in tuning function distance across time in hours.}
+\figlegend{\textbf{Figure 6 -- Functional drift.} \textbf{A.} Boxplot with line of best fit showing encoding model performance changes across time in days. \textbf{B.} Scatterplot of fraction of significant semantic encoding units as a function of test distance in days. \textbf{C.} Boxplot with line of best fit showing decoding model performance changes across time in days. \textbf{D.} Scatterplot of fraction of significant semantic decoding models as a function of test distance in days. \textbf{E.} Density plots showing distribution of encoding model performance slopes (green) and decoding model performance slopes (purple). \textbf{F.} Scatterplot with line of best fit showing changes in tuning function distance across time in hours.}
 
 \clearpage
+
 \section{Discussion}\label{sec10}
 
-We aimed to assess the relative efficacy of big data approaches compared to experimental curation in modeling neural correlates of speech. Our findings are generally in line with the benefits and tradeoffs one may expect with coarse, dataset assembly in comparison to more painstaking data preprocessing methods commonly found in neural/behavioral analyses. Below, we discuss potential reasoning and ramifications behind our results before outlining practical considerations for data mining approaches in behavioral neuroscience.
+We developed a pipeline for processing of incidental speech data in the epilepsy monitoring unit at Baylor St. Luke's Hospital. This pipeline includes automated spike sorting, speech transcription, and video-assisted diarization. We used this pipeline to generate reliable encoding and decoding models, whose performance we quantified by using ground-truth datasets consisting of manually annotated speech and manually sorted spikes. We found that both encoding and decoding models are robust and reliable, and decoding models trained on longitudinal incidental speech performed better than their controlled-task counterparts. These results indicate that currently available methods are able to solve historically difficult problems in transcription, diarization, and spike sorting sufficiently well as to generate reliable models. This is important for applications in which bespoke data collection is impractical, such as in the continuous updating of brain-computer interfaces.
 
-While our semantic encoding results were significant in the naturalistic speech dataset, they surprisingly were worse than semantic encoding results from controlled tasks with much less training data. A significant confounder that may affect our relative performance is the extent to which the patient is paying attention, or even hears, the speech occurring around them. During dedicated tasks, patients are explicitly asked to attend to the conversation or story they are hearing and are consequently much more engaged with the speech they are subjected to. On the other hand, in the naturalistic speech setting it is entirely the patient’s prerogative to attend to whichever stimuli occur around them and neural activity likely covaries less with speech the patient is not attending to versus speech they are actively focusing on \citep{bib35,bib74,bib75}. We have left this as an open problem, and future studies may benefit from assessing subject attention in naturalistic recording environments. 
+Current approaches to modelling speech are often split between those that use single units and those that use local field potentials (LFPs). These two measures offer complementary, and partially overlapping, views of brain activity. Here we focus on spiking activity. While LFPs are relatively straightforward to analyze, and require little preprocessing, spiking activity requires detection (requiring distinguishing spikes from spike-like noise) and isolation (assigning spikes to the neurons that generate them), which is more difficult. Many automated and partially automated systems exist \citep{bib87,bib128,bib108,bib130}, but none approach the accuracy of careful manual annotation. Here, we show that perfect spike isolation accuracy is not necessarily required for neural modeling, and current automated systems---specifically, spike autothresholding---are sufficient to generate reliable encoding and decoding models.
 
-On the other hand, we generally find semantic decoding to perform better when trained on the naturalistic speech dataset as compared to controlled task datasets, though this effect is less pronounced in the podcast task. Previous studies have shown neural representations of semantics of the same word differ in a semiorthogonal way depending on whether an individual is listening to or speaking the word \citep{bib53}. Both conversation data and naturalistic speech data contain an unlabeled mix of both spoken and comprehended words, which may confound the model’s ability to classify semantic categories depending on how disparate these neural representations are. This may explain why models trained on podcast data perform better than conversation data models, as the podcast task involves the patient only listening to speech whereas in conversation they are both speaking and listening. Nevertheless, this potential confounder does not offset the performance gain from having access to long-range naturalistic speech recordings. Speaker diarization models that operate well on noisy, naturalistic data may in this case further assist in semantic classification. Already multimodal speaker diarization models allowed us to filter patient-only speech, and further progress in computer vision and multimodal ML research promises to provide speaker classifiers with even better accuracy \citep{bib94,bib95,bib96,bib97}. 
+We found our encoding model performance scales with the size of the training dataset. Notably, even with large datasets, we did not find a saturation point for performance as a size of training set \citep[cf.][]{bib89}. This result argues for the potential value of naturalistic datasets in training models, especially when current approaches struggle to reach decoding accuracies useful for clinical application \citep{bib82,bib131,bib132,bib133,bib16,bib17}. Critically, this performance increase is achievable using automated pipelines, making the use of large datasets feasible; this is important because, as training sets grow larger, data preprocessing increasingly becomes a bottleneck. Secondly, in our analysis using larger portions of the data led to a gradual improvement in the portion of units detected as significant for semantic tuning. This result does not necessarily imply that additional data changes neural tuning, but rather that oftentimes weak tuning effects are difficult to discover without sufficient statistical power (i.e., a large enough sample size). Indeed, multiple studies have shown that the detection of reproducible effects in neuroscience is limited by the sample sizes typically available in research studies \citep{bib78,bib116}. Our decimation analysis thus suggests large, naturalistic datasets are useful not only for improving model performance but also for revealing subtle yet real neural-behavioral relationships that are missed with smaller studies, such as how widespread semantic tuning may be in the brain.
 
-A number of explanations may support why speech decoding performed better in the naturalistic dataset whereas encoding did not. One major contributor is likely functional drift. A number of studies have demonstrated changes in neural coding on the basis of genuine representational changes as well as changes in recording targets from electrode displacement \citep{bib98,bib99}. However, population-level coding models have been shown to exploit latent dynamics and manifolds that persist across time, even as individual unit encoding profiles do not \citep{bib100,bib101}. Our findings that decoder drift is significantly less than encoder drift are in line with the literature in this regard, and other studies have successfully trained neural decoders on cross-day data that maintain high accuracy across months of use \citep{bib102}. 
+On the prevalence of semantic tuning across units, we find that we can recover significant language representations in multiple brain regions, including but not limited to anterior cingulate, hippocampus, and the centromedial head of the thalamus. These findings are inconsistent with the idea that language is strictly localized to specific language network regions, but are consistent with a growing body of neuroimaging work showing widespread brain representation of language \citep{bib2,bib8}. Our results therefore extend these ideas from neuroimaging to the domain of spiking activity. They also open the door to large data-driven studies of subtler differences between brain regions, including variation in semantic content and grammatical role.
 
-To explain why speech decoding performed better in the naturalistic dataset whereas encoding did not, we posit that “coarse” behavioral data is likely much easier to model accurately from long-range, naturalistic datasets than finer behavioral variables. To illustrate this point, naturalistic recordings helped improve our semantic category classification significantly whereas this was not the case for spike prediction from numerical representations of semantics. The number of experimental confounders is generally likely to be higher with naturalistic environments and automated preprocessing pipelines than controlled experimental environments \citep{bib27}. Moreover, fine behavioral predictions with a continuous, multidimensional state space should require substantially more curated and controlled neural signals at finer time scales than those with univariate or categorical state spaces \citep{bib103}. To be more specific, many more behavioral conditions likely correspond to one of ten semantic categories than conditions that correspond to a specific numerical, semantic representation of language. This results in behavioral measurement reliability to be higher for semantic categories than numerical semantic representations, allowing models using the former to scale better with dataset size \citep{bib76}. As such, the benefit of additional behavioral data is likely to be more pronounced in “coarse” behavioral models than complex ones where neural information relevance is a larger problem. This proved to be the case for our results as the semantic classification problem has a state space of ten while our regression problem has an effectively infinite state space. 
+The benefits of large-scale naturalistic datasets notably come with tradeoffs. Indeed, we found that even though our decoding model performance is better with the naturalistic dataset than our controlled dataset---likely due to the large increase in dataset size---we did not find the same result for our encoding models. This result raises an important question: why did the large increase in training data improve performance in our decoding models but not our encoding models? One explanation is that the decrease in performance from additional noise through automated neural and speech processing is not able to offset the gain in performance from additional training data. However, we find this to not be the case in our analysis. We actually find both encoding and decoding models trained on the same control dataset to perform better with autothresholded spikes and uncorrected WhisperX transcripts than with manually sorted spikes and manually corrected transcripts. Thus, we do not ascribe the performance deficit in our naturalistic encoding models to the inaccuracies of current automated neural preprocessing and behavioral annotation models.
 
-A third axis of complication is that any particular behavioral variable (in our case, semantics) used for encoding likely only explains a portion of neural firing activity that is in sum explained by a much more complex mix of behavioral and physiological variables \citep{bib104}, whereas population decoders are able to specifically exploit the portion of neural dynamics that are relevant to our target variable.  We very possibly may hit the semantic noise ceiling too soon to benefit from large amounts of naturalistic data in encoding, which is supported by the diminishing returns model we find in our decimation results. 
+Instead, we suggest functional drift in our encoding models is a more likely explanation. Several studies have demonstrated changes in neural coding on the basis of genuine representational changes as well as changes in recording targets from electrode displacement \citep{bib98,bib99}. However, population-level decoding models exploit latent dynamics and manifolds that persist across time, even as individual unit encoding profiles do not \citep{bib100,bib101}. In our design, our encoding models are fit per neuron, whereas our decoders are fit on the population level. Our results demonstrate this relative benefit of population-level models directly: population decoder performance is much more stable over time and drifts far less compared to our single-unit encoder models. Moreover, other studies corroborate these results by training population decoders on cross-day data whilst maintaining high accuracy across months of use \citep{bib102}. These results suggest that population-level models may be much more cohesive to training with longitudinal, cross-day data than those that focus on single neurons.
 
-Nevertheless, large datasets help demonstrate the generalizability of behavioral models to various experimental conditions. For example, a consistent neural representation of a particular word can only be determined by having replicate occurrences of the word at different times of the day, across days, uttered by different speakers, with various attention levels from the patient, and so on \citep{bib77,bib78}. Our decimation analysis results also illustrate this point as our model performance only exceeds our null baseline when using datasets approximately 724.3 ($\pm$ 3.4) words in size or more. Assembling such large datasets deliberately can often be difficult and lead to impractically long experiments whereas naturalistic environments contain such information inherently \citep{bib79,bib27,bib40}. Fully taking advantage of the abundance of naturalistic data will likely require parallel advances in AI fields such as natural language processing, computer vision, and neural preprocessing. At present, many open-source models commonly used in behavioral studies have made tremendous progress but still cannot reliably compete with human annotation \citep{bib80,bib29,bib81}.
+Another potential tradeoff in developing high-performing semantic models using naturalistic data is patient attention. During dedicated tasks, patients attend closely; in the naturalistic speech settings, the patient decides what to attend to. Neural activity likely covaries less with speech the patient is not attending \citep{bib35,bib74,bib75}. Thus, one area for improvement in future automated models would be developing techniques for monitoring and controlling for attention levels, such as perpetual gaze-tracking or pupillometry \citep{bib121,bib122}.
 
-However, another potentially beneficial use case of long-range datasets that does not inherently require precise labeling is self-supervised neural representation learning with deep neural networks. Previous studies have shown that training a convolutional EEG embedding model with a contrastive learning objective against corresponding wav2vec embeddings allows the trained model to fetch the corresponding acoustic embedding with up to 80% accuracy on select patients \citep{bib82}, essentially resulting in a model that generates neural representations of data that are tuned to the behavioral variable of interest. Moreover, these embedding models can be fine-tuned with linear probes or other methods on smaller datasets. This has been shown to improve downstream decoding performance on select task data over training a model solely on task data from scratch \citep{bib32}. In our case, training a spike embedding model with a contrastive objective against LLM embeddings may provide an effective preprocessing model that generates neural representations that are inherently tuned to and representative of the behavioral variable we care about, and these representations may be used to decode behavior with simpler models more effectively than providing raw neural inputs as training data. 
-
-In conclusion, big data methodologies present a strong opportunity for developing generalizable neural models of semantics and likely human behavior at large. However, a strategic consideration of their strengths, limitations, and the current trajectory of behaviorally relevant machine learning models is needed to make the most of them.
+However, another potentially beneficial use case of long-range datasets that does not inherently require behavioral labelling, is not limited by patient attention, and may be more robust to single-unit representational and recording changes \citep{bib100,bib117,bib120} is self-supervised neural representation learning with deep neural networks \citep{bib118,bib119}. These models can then be used for a variety of downstream tasks when behavioral annotation is available. Previous studies have shown that training a convolutional EEG embedding model with a contrastive learning objective against corresponding wav2vec embeddings allows the trained model to fetch the corresponding acoustic embedding with up to 80\% accuracy on select patients \citep{bib82}, essentially resulting in a model that generates neural representations of data that are tuned to the behavioral variable of interest. Moreover, these embedding models can be fine-tuned with linear probes or other methods on smaller datasets. This has been shown to improve downstream decoding performance on select task data over training a model solely on task data from scratch \citep{bib32}. In our case, training a spike embedding model with a contrastive objective against LLM embeddings may provide an effective preprocessing model that generates neural representations that are inherently tuned to and representative of the behavioral variable we care about, and these representations may be used to decode behavior with simpler models more effectively than providing raw neural inputs as training data. Overall, our results demonstrate the feasibility in developing neural models of speech using naturalistic data, and a rich range of methodologies promise to deliver important results in both cognitive neuroscience and neuroengineering at scales unprecedented under smaller experimental paradigms.
 
 \clearpage
 \section{Methods}\label{sec11}
 
 \subsection{Electrophysiology Recording}\label{subsec1}
-All recorded epilepsy patients were undergoing neural monitoring for seizure localization at the Epilepsy Monitoring Unit (EMU) at Baylor St. Luke’s Medical Center in Houston, TX. Patients had Behnke-Fried intracranial electrodes placed in various regions of the brain that differed per patient, with a subset of depth electrodes including microwires from which single unit data was recorded and analyzed for this study.
+All recorded epilepsy patients (8M, 13F, ages 21-69) were undergoing neural monitoring for seizure localization at the Epilepsy Monitoring Unit (EMU) at Baylor St. Luke’s Medical Center in Houston, TX. Patients had Behnke-Fried intracranial electrodes placed in various regions of the brain that differed per patient, with a subset of depth electrodes including microwires from which single unit data was recorded and analyzed for this study.
 
 \subsection{Behavioral Recording}\label{subsec2}
 Two Blue Yeti microphones, one directly above the patient bed and another in the corner of the room, recorded all ambient audio in the EMU, which included frequent conversations between the patient and others. Only the audio from the microphone above the patient bed was used for our analysis as it tended to record patient speech with more clarity. Eight Flir cameras located at various positions throughout the room recorded video of patient bed from various angles, capturing patient motions, expressions, and activities. Camera quality was valididated via manual inspection per patient and the camera with the clearest view of the patient's face was used for analysis.
@@ -855,7 +540,7 @@ Detected spike times were converted to a binary spike train per channel sampled 
 Our semantic encoding model involved using GPT-2 embeddings to predict firing rate. Our model inputs are defined below for every $i^{th}$ input:
 \begin{itemize}
   \item[-] feature vector $x_{i}\in \mathbb{R}^d$, where $d$ is the dimensionality of the principal components (PCs) of the last GPT-2 hidden state (1280 → 100). PCs were used to maximize information across dimensions and reduce model complexity.
-  \item[-] label vector $y_{i}\in \mathbb{R}^K$, where $K$ is the number of channels recorded from and each value is the associated spike count for word $i$
+  \item[-] spike count vector $y_{i}\in \mathbb{R}^K$, where $K$ is the number of channels recorded from and each value is the associated spike count for word $i$
   \item[-] word duration $\Delta_{i}$ in milliseconds
   \item[-] offset $o_i\log(\Delta_i)$
 \end{itemize}
@@ -890,7 +575,7 @@ $\mu_{ik,\mathit{real}}$ is the individual prediction from our Poisson GLM, wher
 \subsection{XGBoost Decoder}\label{subsec10}
 To decode semantic category labels from population firing rate activity, we trained multiclass gradient-boosted decision tree classifiers using XGBoost. For each word $i$, the feature vector $x_i$ is defined as the average firing rate across the word’s duration for all $K$ recorded channels. Per-bin firing rate was calculated by convolving a gaussian kernel with 50 ms standard deviation across our autothresholded binary spike train. The average firing rate was calculated as the mean of all firing rates whose bins overlapped with the word duration. The output label $y_i$ is the corresponding semantic category of the word, which is classified from the word2vec embedding of the word (see: \textbf{6.10}). The model was optimized using the multiclass log loss:
 \[
-\mathcal{L}=-\frac{1}{N}\sum_{i=1}^N\sum_{c=1}^C\mathbb{1}[y_i=c]\log\hat{p}_{ic},\quad\text{where $C$ is the number of classes}
+\mathcal{L}=-\frac{1}{N}\sum_{i=1}^N\sum_{c=1}^C\mathbf{1}[y_i=c]\log\hat{p}_{ic},\quad\text{where $C$ is the number of classes}
 \]
 Hyperparameters including max\_depth, min\_child\_weight, gamma, subsample, colsample\_bytree, reg\_lambda, reg\_alpha, learning\_rate, and n\_estimators were tuned using 5-fold Randomized Search Cross Validation (implemented in \href{https://scikit-learn.org}{scikit\_learn}). The highest performing hyperparameters were then used to train a model on the full label-stratified training set and evaluated on a single held-out test set.
 
@@ -951,13 +636,13 @@ We defer to the original Sentence-BERT paper for a detailed explanation of the m
 
 To evaluate whether each neuron’s GLM performance was significant compared to predictions based on word duration or other latent structural features, we randomly permuted the GPT embeddings 50 times for each cross fold and refit our Poisson GLM with the same vector. This destroyed the semantic relationship between input and output whilst maintaining word duration as labels were not permuted instead. PCA was recalculated for the newly permuted training set per fold. The p-value per fold is calculated by observing the proportion of times the log-likelihood \textbf{6.8} value of our permuted model is greater than or equal to our real model:
 \[
-p=\frac{1+\sum_{n+1}^{N_\mathit{shuf}}\mathbb{1}[\log\mathcal{L_{\mathit{shuf},n}}\ge\log\mathcal{L}_\mathit{real}]}{N_{shuf}+1}
+p=\frac{1+\sum_{n=1}^{N_\mathit{shuf}}\mathbf{1}[\log\mathcal{L}_{\mathit{shuf},n}\ge\log\mathcal{L}_\mathit{real}]}{N_\mathit{shuf}+1}
 \]
 The p-value across folds for a particular neuron is calculated the same way except by using the average $log\mathcal{L}$  values across folds and per permutation:
 \begin{gather*}
 \log\mathcal{L}_\mathit{real}=\frac{1}{K}\sum_{k=1}^K\log\mathcal{L}_{\mathit{real},k,n}\\
 \log\mathcal{L}_{\mathit{shuf},n}=\frac{1}{K}\sum_{k=1}^K\log\mathcal{L}_{\mathit{shuf},k,n}\\
-p=\frac{1+\sum_{n=1}^{N_\mathit{shuf}}\mathbb{1}[\log\mathcal{L}_{\mathit{shuf},n}\ge\log\mathcal{L}_\mathit{real}]}{N_\mathit{shuf}+1}
+p=\frac{1+\sum_{n=1}^{N_\mathit{shuf}}\mathbf{1}[\log\mathcal{L}_{\mathit{shuf},n}\ge\log\mathcal{L}_\mathit{real}]}{N_\mathit{shuf}+1}
 \end{gather*}
 
 \subsection{Spike Sorting}\label{subsec16}
@@ -1205,16 +890,13 @@ To assess if weight distance changed as a function of time apart, we fit a WLS r
 \backmatter
 
 \bmhead{Ethics approval and consent to participate}
-
-\bmhead{Consent for publication}
-
-\bmhead{Data availability}
-
-\bmhead{Materials availability}
+All experimental protocols were approved by the Baylor College of Medicine Institutional Review Board (IRB). All methods were carried out in accordance with the relevant guidelines and regulations. Informed consent was obtained from all participants and/or their legal guardians.
 
 \bmhead{Code availability}
+All analysis and processing scripts can be found at \url{https://github.com/BCM-Neurosurgery/speech_247_scripts}.
 
-\bmhead{Author contribution}
+\bmhead{Use of generative AI}
+Generative AI tools were used to help refine analysis and processing scripts and to revise the writing of this manuscript.
 
 %%===========================================================================================%%
 %% If you are submitting to one of the Nature Portfolio journals, using the eJP submission   %%
