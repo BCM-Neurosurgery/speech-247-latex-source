@@ -610,7 +610,7 @@ $\mu_{ik,\mathit{real}}$ is the individual prediction from our Poisson GLM, wher
 \end{gather*}
 
 \subsection{XGBoost Decoder}\label{subsec10}
-To decode semantic category labels from population firing rate activity, we trained multiclass gradient-boosted decision tree classifiers using XGBoost. For each word $i$, the feature vector $x_i$ is defined as the average firing rate across the word’s duration for all $K$ recorded channels. Per-bin firing rate was calculated by convolving a gaussian kernel with 50 ms standard deviation across our autothresholded binary spike train. The average firing rate was calculated as the mean of all firing rates whose bins overlapped with the word duration. The output label $y_i$ is the corresponding semantic category of the word, which is classified from the word2vec embedding of the word (see: \textbf{4.10}). The model was optimized using the multiclass log loss:
+To decode semantic category labels from population firing rate activity, we trained multiclass gradient-boosted decision tree classifiers using XGBoost. For each word $i$, the feature vector $x_i$ is defined as the average firing rate across the word’s duration for all $K$ recorded channels. Per-bin firing rate was calculated by convolving a gaussian kernel with 50 ms standard deviation across our autothresholded binary spike train. The average firing rate was calculated as the mean of all firing rates whose bins overlapped with the word duration. The output label $y_i$ is the corresponding semantic category of the word, which is classified from the word2vec embedding of the word (see: \textbf{4.11}). The model was optimized using the multiclass log loss:
 \[
 \mathcal{L}=-\frac{1}{N}\sum_{i=1}^N\sum_{c=1}^C\mathbf{1}[y_i=c]\log\hat{p}_{ic},\quad\text{where $C$ is the number of classes}
 \]
@@ -671,7 +671,7 @@ We defer to the original Sentence-BERT paper for a detailed explanation of the m
 
 \subsection{Permutation Testing}\label{subsec15}
 
-To evaluate whether each neuron’s GLM performance was significant compared to predictions based on word duration or other latent structural features, we randomly permuted the GPT embeddings 50 times for each cross fold and refit our Poisson GLM with the same vector. This destroyed the semantic relationship between input and output whilst maintaining word duration as labels were not permuted instead. PCA was recalculated for the newly permuted training set per fold. The p-value per fold is calculated by observing the proportion of times the log-likelihood \textbf{4.8} value of our permuted model is greater than or equal to our real model:
+To evaluate whether each neuron’s GLM performance was significant compared to predictions based on word duration or other latent structural features, we randomly permuted the GPT embeddings 50 times for each cross fold and refit our Poisson GLM with the same vector. This destroyed the semantic relationship between input and output whilst maintaining word duration as labels were not permuted instead. PCA was recalculated for the newly permuted training set per fold. The p-value per fold is calculated by observing the proportion of times the log-likelihood value of our permuted model is greater than or equal to our real model:
 \[
 p=\frac{1+\sum_{n=1}^{N_\mathit{shuf}}\mathbf{1}[\log\mathcal{L}_{\mathit{shuf},n}\ge\log\mathcal{L}_\mathit{real}]}{N_\mathit{shuf}+1}
 \]
