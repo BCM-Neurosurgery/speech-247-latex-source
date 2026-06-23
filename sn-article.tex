@@ -70,6 +70,29 @@
 \usepackage{amsthm}%
 \usepackage[title]{appendix}%
 \usepackage{xcolor}%
+\usepackage{enumitem}%
+
+% --- Line numbers for the preprint only (Introduction onward) ---
+\ifpreprintmode
+\usepackage{lineno}%
+% Make lineno number lines inside amsmath display environments too:
+\newcommand*\patchAmsMathEnvironmentForLineno[1]{%
+  \expandafter\let\csname old#1\expandafter\endcsname\csname #1\endcsname
+  \expandafter\let\csname oldend#1\expandafter\endcsname\csname end#1\endcsname
+  \renewenvironment{#1}%
+    {\linenomath\csname old#1\endcsname}%
+    {\csname oldend#1\endcsname\endlinenomath}}%
+\newcommand*\patchBothAmsMathEnvironmentsForLineno[1]{%
+  \patchAmsMathEnvironmentForLineno{#1}%
+  \patchAmsMathEnvironmentForLineno{#1*}}%
+\AtBeginDocument{%
+  \patchBothAmsMathEnvironmentsForLineno{equation}%
+  \patchBothAmsMathEnvironmentsForLineno{align}%
+  \patchBothAmsMathEnvironmentsForLineno{flalign}%
+  \patchBothAmsMathEnvironmentsForLineno{alignat}%
+  \patchBothAmsMathEnvironmentsForLineno{gather}%
+  \patchBothAmsMathEnvironmentsForLineno{multline}}%
+\fi
 %%%%
 
 \newcommand{\figlegend}[1]{\par\smallskip\noindent\small #1\normalsize\par\medskip}
@@ -220,7 +243,7 @@
 %% Sample for unstructured abstract %%
 %%==================================%%
 
-\abstract{The ability to derive neuron-level language coding models holds great scientific and clinical potential. Current approaches are limited by the scale and ethological validity of input data; applications requiring large, rare, or naturalistic samples in particular would benefit from the ability to infer neural coding from incidental everyday speech. Here we present a novel pipeline designed to leverage spontaneously captured naturalistic speech. This pipeline performs transcription, segmentation, and video-assisted diarization, as well as alignment and spike detection of neural data. We apply this pipeline to a dataset derived from 21 patients (6+ days each, over 800 hours and 5 million words total). We benchmark both encoding and decoding models against extensive and rare ground-truth control datasets consisting of human-curated word-level temporal alignment and manually sorted spikes. We further validate our approach by quantifying representational drift, effect of dataset size, and differences between six brain areas. Together, these findings demonstrate that meaningful neuronal embeddings can be recovered from automated, passive pipelines.}
+\abstract{The ability to derive neural-level language coding models holds great scientific and clinical potential. Current approaches are limited by the scale and ethological validity of input data; applications requiring large, rare, or naturalistic samples in particular would benefit from the ability to infer neural coding from incidental everyday speech. Here we present a novel pipeline designed to leverage spontaneous and incidental naturalistic speech. This pipeline performs transcription, segmentation, and video-assisted diarization, as well as alignment and spike detection of neural data. We apply this pipeline to a dataset derived from 21 patients (6+ days each, over 800 hours and 5 million words total). We benchmark both encoding and decoding models against extensive and rare ground-truth control datasets consisting of human-curated word-level temporal alignment and manually sorted spikes. We further validate our approach by quantifying representational drift, effect of dataset size, and differences between six brain areas. Together, these findings demonstrate that incidental natural speech is sufficiently processed in the brain to enable the estimation of neural-level embeddings.}
 
 %%================================%%
 %% Sample for structured abstract %%
@@ -256,6 +279,7 @@
 \makeatother
 \clearpage
 \section{Introduction}\label{sec1}
+\ifpreprintmode\linenumbers\fi
 
 As we listen to speech, our brains continuously transform that input into
 structured neural representations. By combining measurements of
@@ -263,7 +287,7 @@ neural responses with embeddings derived from large-language models, scientists
 can quantify the association between neural responses and the language that
 evokes them. This approach works with a range of neural measures, including
 fMRI, MEG, EEG, and intracranial EEG \citep{bib1,bib2,bib3,bib4,bib5,bib9,bib10,bib11}.
-While each of these measures has its value, neuron-level recordings track both
+While each of these measures have their value, neuron-level recordings track both
 the high temporal resolution of speech and give the high spatial resolution of
 neural computation \citep{bib13,bib14,bib4,bib5,bib12,bib48,bib49}. As a result, they are
 often used in brain--computer interfaces (BCIs; \citealp{bib102,bib16,bib17}), as well as in
@@ -294,8 +318,8 @@ conversation preclude gold-standard manual spike sorting across long recordings
 and spike detection now make approximate spike sorting in such datasets
 tractable, these tools remain imperfect and can introduce additional sources of
 noise and bias \citep{bib39,bib105,bib106,bib107,bib108,bib109,bib110,bib111}. One of the biggest barriers to evaluating these
-models is the lack of high quality ground-truthed datasets large enough to
-evaluate automated pipelines. Despite these barriers, we hypothesize that automated pipelines can reliably be deployed to recover valid speech models.
+models is the lack of high-quality ground-truthed datasets large enough to
+evaluate automated pipelines. Despite these barriers, we hypothesize that the brain processes natural speech well enough that automated pipelines can reliably be deployed to recover valid speech models.
 
 In any case, naturalistic speech offers unique scientific and
 practical advantages. Daily life provides an exceptionally rich and diverse
@@ -354,12 +378,12 @@ To assess our diarization accuracy, we compared the outputs of LR-ASD to the man
 \includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{\figdir/Figure_2_Jun11.pdf}
 \label{fig:figure2}
 \end{figure}
-\figlegend{\textbf{Figure 2 -- Data quantity and annotation accuracy.} \textbf{A.} 2D UMAP plot of all words collected from our pipeline, clustered by word2vec embeddings and colored by semantic category. Words generally cluster by their assigned semantic category. \textbf{B.} Bar plots showing the amount of speech data collected from our pipeline per patient, sorted by number of words. \textbf{C.} Line plot showing the average number of words across patients collected per 3 hour block starting the first midnight after patient admission, displaying a daily cyclic pattern. Background color displays the standard error per time block across patients. \textbf{D.} Lollipop plot displaying the portion of conversation sentences for which a corresponding match was found in the associated automated transcript. \textbf{E.} Example sentences displaying what potential pairs of matched sentences looked like and the types of transcription errors corrected for. \textbf{F.} Histograms describing transcription and segmentation errors across matched sentences in terms of WER similarity, SBERT cosine similarity, sentence timing errors, and word timing errors. \textbf{G.} Paired barplot summarizing diarization accuracy of annotated conversations compared to patient base speaking rate.}
+\figlegend{\textbf{Figure 2 -- Data quantity and annotation accuracy.} \textbf{A.} Bar plots showing the amount of speech data collected from our pipeline per patient, sorted by number of words. \textbf{B.} 2D UMAP plot of all words collected from our pipeline, clustered by word2vec embeddings and colored by semantic category. Words generally cluster by their assigned semantic category. \textbf{C.} Line plot showing the average number of words across patients collected per 3 hour block starting the first midnight after patient admission, displaying a daily cyclic pattern. Background color displays the standard error per time block across patients. \textbf{D.} Lollipop plot displaying the portion of conversation sentences for which a corresponding match was found in the associated automated transcript. \textbf{E.} Example sentences displaying what potential pairs of matched sentences looked like and the types of transcription errors corrected for. \textbf{F.} Histograms describing transcription and segmentation errors across matched sentences in terms of WER similarity, SBERT cosine similarity, sentence timing errors, and word timing errors. \textbf{G.} Paired barplot summarizing diarization accuracy of annotated conversations compared to patient base speaking rate.}
 
 \clearpage
 \subsection{Significant semantic encoding in the continuous speech dataset}
 
-We first aimed to understand whether our automated pipeline allows for the development of meaningful semantic encoding models. We analyzed recovered autothresholded unit data from all available brain structures: (1) hippocampus (HPC, 496 units), (2) amygdala (AMY, 88 units), (3) orbitofrontal cortex (OFC, 104 units), (4) thalamus (THAL, centromedian nucleus, 64 units), (5) anterior cingulate cortex (ACC, 240 units), and (6) posterior cingulate cortex (PCC, 24 units). We first examined all autothresholded units together. We collected between 16 to 64 units per patient, with the most units coming from the hippocampus and anterior cingulate and the least coming from the thalamus and posterior cingulate.
+We first aimed to understand whether our automated pipeline allows for the development of meaningful semantic encoding models. We analyzed recovered autothresholded unit data from all available brain structures: (1) hippocampus (HPC, 496 units), (2) amygdala (AMY, 88 units), (3) orbitofrontal cortex (OFC, 104 units), (4) thalamus (THAL, centromedian nucleus, 64 units), (5) anterior cingulate cortex (ACC, 240 units), and (6) posterior cingulate cortex (PCC, 24 units). We first examined all autothresholded units together. We collected between 16 to 96 units per patient, with the most units coming from the hippocampus and anterior cingulate and the least coming from the thalamus and posterior cingulate.
 
 We evaluated \textit{encoder model performance} using the pseudo $R^2$ score, which defines the relative performance gain over a null model that predicts spike counts from the average firing rate and duration of each word (\textbf{Methods}). Pseudo $R^2$ was chosen for its interpretability and inherent benchmarking: a score equal to zero indicates performance that is equal to our specified null model. Negative values indicate performance that was worse than the null model. Moreover, pseudo $R^2$ scores with mean firing rate nulls are commonly used to evaluate GLM performance in neural coding analyses \citep{bib57,bib58,bib59}. Our automated pipeline produced robust encoding models, as seen from average pseudo $R^2$ scores above 0 ($0.004 \pm 0.0003$ to $0.12 \pm 0.025$) for all patients (\textbf{Figure 3A}). Our response range is typical for neural encoding models \citep{bib57,bib58,bib59}, and significant scores above zero confirm that our automated pipeline is able to detect semantic tuning without manual data curation.
 
@@ -472,7 +496,7 @@ We next investigated the differences between the tuning functions for our single
 
 We developed a pipeline for processing of incidental speech data recorded 24/7 in the EMU. It records all speech and brain activity from implanted Behnke-Fried microwire bundles during the patient's stay (6+ days). Our pipeline includes automated spike sorting, speech transcription, and video-assisted diarization. We used this pipeline to generate reliable encoding and decoding models, whose performance we quantified by using ground-truth datasets consisting of manually annotated speech and manually sorted spikes. One of the most difficult practical, if not technical, problems with such pipelines is developing tools to assess their quality. Here we used a painstaking manual curation of naturalistic data involving both hand-sorting of spikes and precise manual alignment of all speech during typical sessions. This dataset allowed us to precisely quantify the accuracy of our much larger naturalistic dataset.
 
-We found that both encoding and decoding models are robust and reliable, and decoding models trained on longitudinal incidental speech performed better than their controlled-task counterparts. These results indicate that currently available methods are able to solve historically difficult problems in transcription, diarization, and spike sorting sufficiently well as to generate reliable models. This is important for applications in which bespoke data collection is impractical, such as in the continuous updating of brain-computer interfaces, or in scientific projects requiring large amounts of data, or long periods of time, or very infrequent words.
+We found that both encoding and decoding models are robust and reliable, and decoding models trained on longitudinal incidental speech performed better than their controlled-task counterparts. These results indicate that the level of neural responding to language is such, and of such a type, that we can infer reliable, generalizable models from passively recorded speech. Moreover, they tell us that currently available methods are able to solve historically difficult problems in transcription, diarization, and spike sorting sufficiently well as to generate reliable models. This is important for applications in which bespoke data collection is impractical, such as in the continuous updating of brain-computer interfaces, or in scientific projects requiring large amounts of data, or long periods of time, or very infrequent words.
 
 We found our encoding model performance scales with the size of the training dataset. Notably, even with large datasets, we did not find a saturation point for performance as a function of training set size. This result argues for the potential value of (large) naturalistic datasets in training models, especially when current approaches struggle to reach decoding accuracies useful for clinical application \citep{bib82,bib131,bib132,bib133,bib16,bib17}. Critically, this performance increase is achievable using automated pipelines, making the use of large datasets feasible; this is important because, as training sets grow larger, data preprocessing increasingly becomes a bottleneck.
 
@@ -549,11 +573,11 @@ Detected spike times were converted to a binary spike train per channel sampled 
 .
 \subsection{Poisson GLM}\label{subsec8}
 Our semantic encoding model involved using GPT-2 embeddings to predict firing rate. Our model inputs are defined below for every $i^{th}$ input:
-\begin{itemize}
-  \item[-] feature vector $x_{i}\in \mathbb{R}^d$, where $d$ is the dimensionality of the principal components (PCs) of the last GPT-2 hidden state (1280 → 100). PCs were used to maximize information across dimensions and reduce model complexity.
-  \item[-] spike count vector $y_{i}\in \mathbb{R}^K$, where $K$ is the number of channels recorded from and each value is the associated spike count for word $i$
-  \item[-] word duration $\Delta_{i}$ in milliseconds
-  \item[-] offset $o_i\log(\Delta_i)$
+\begin{itemize}[leftmargin=2.5em,label=\textendash,itemsep=3pt,topsep=4pt]
+  \item feature vector $x_{i}\in \mathbb{R}^d$, where $d$ is the dimensionality of the principal components (PCs) of the last GPT-2 hidden state (1280 → 100). PCs were used to maximize information across dimensions and reduce model complexity.
+  \item spike count vector $y_{i}\in \mathbb{R}^K$, where $K$ is the number of channels recorded from and each value is the associated spike count for word $i$
+  \item word duration $\Delta_{i}$ in milliseconds
+  \item offset $o_i\log(\Delta_i)$
 \end{itemize}
 
 Our GLM predicts the associated spike count of an input vector with the log link function:
