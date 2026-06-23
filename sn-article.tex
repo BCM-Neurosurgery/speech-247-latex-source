@@ -71,6 +71,7 @@
 \usepackage[title]{appendix}%
 \usepackage{xcolor}%
 \usepackage{enumitem}%
+\usepackage{changepage}%
 
 % --- Line numbers for the preprint only (Introduction onward) ---
 \ifpreprintmode
@@ -92,6 +93,7 @@
   \patchBothAmsMathEnvironmentsForLineno{alignat}%
   \patchBothAmsMathEnvironmentsForLineno{gather}%
   \patchBothAmsMathEnvironmentsForLineno{multline}}%
+\renewcommand\linenumberfont{\normalfont\footnotesize}%
 \fi
 %%%%
 
@@ -278,8 +280,8 @@
 \SNorigprintkeywords
 \makeatother
 \clearpage
-\section{Introduction}\label{sec1}
 \ifpreprintmode\linenumbers\fi
+\section{Introduction}\label{sec1}
 
 As we listen to speech, our brains continuously transform that input into
 structured neural representations. By combining measurements of
@@ -332,7 +334,7 @@ everyday speech are increasingly relevant for clinical technologies, including
 speech prosthetics and adaptive deep brain stimulation, which require robust
 neural--linguistic mappings outside the laboratory \citep{bib102,bib41,bib42}.
 Here we describe a novel pipeline deployed to analyze all incidental speech from
-within the EMU at a single hospital for 21 patients over 800 hours. Critically,
+within the EMU at a single hospital for 21 patients over more than 3000 of total monitoring time. Critically,
 we leverage a ground-truth dataset derived from real-world conversations that is
 manually aligned and diarized, along with corresponding manual spike sorting.
 
@@ -375,19 +377,19 @@ To assess our diarization accuracy, we compared the outputs of LR-ASD to the man
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{\figdir/Figure_2_Jun11.pdf}
+\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{\figdir/Figure_2_Jun23.pdf}
 \label{fig:figure2}
 \end{figure}
-\figlegend{\textbf{Figure 2 -- Data quantity and annotation accuracy.} \textbf{A.} Bar plots showing the amount of speech data collected from our pipeline per patient, sorted by number of words. \textbf{B.} 2D UMAP plot of all words collected from our pipeline, clustered by word2vec embeddings and colored by semantic category. Words generally cluster by their assigned semantic category. \textbf{C.} Line plot showing the average number of words across patients collected per 3 hour block starting the first midnight after patient admission, displaying a daily cyclic pattern. Background color displays the standard error per time block across patients. \textbf{D.} Lollipop plot displaying the portion of conversation sentences for which a corresponding match was found in the associated automated transcript. \textbf{E.} Example sentences displaying what potential pairs of matched sentences looked like and the types of transcription errors corrected for. \textbf{F.} Histograms describing transcription and segmentation errors across matched sentences in terms of WER similarity, SBERT cosine similarity, sentence timing errors, and word timing errors. \textbf{G.} Paired barplot summarizing diarization accuracy of annotated conversations compared to patient base speaking rate.}
+\figlegend{\textbf{Figure 2 -- Data quantity and annotation accuracy.} \textbf{A.} Bar plots showing the amount of speech data collected from our pipeline per patient, sorted by number of words. \textbf{B.} 2D UMAP plot of all words collected from our pipeline, clustered by word2vec embeddings and colored by semantic category (patient/vistor named redacted for compliance). Words generally cluster by their assigned semantic category. \textbf{C.} Line plot showing the average number of words across patients collected per 3 hour block starting the first midnight after patient admission, displaying a daily cyclic pattern. Background color displays the standard error per time block across patients. \textbf{D.} Lollipop plot displaying the portion of conversation sentences for which a corresponding match was found in the associated automated transcript. \textbf{E.} Example sentences displaying what potential pairs of matched sentences looked like and the types of transcription errors corrected for. \textbf{F.} Histograms describing transcription and segmentation errors across matched sentences in terms of WER similarity, SBERT cosine similarity, sentence timing errors, and word timing errors. \textbf{G.} Paired barplot summarizing diarization accuracy of annotated conversations compared to patient base speaking rate.}
 
 \clearpage
 \subsection{Significant semantic encoding in the continuous speech dataset}
 
 We first aimed to understand whether our automated pipeline allows for the development of meaningful semantic encoding models. We analyzed recovered autothresholded unit data from all available brain structures: (1) hippocampus (HPC, 496 units), (2) amygdala (AMY, 88 units), (3) orbitofrontal cortex (OFC, 104 units), (4) thalamus (THAL, centromedian nucleus, 64 units), (5) anterior cingulate cortex (ACC, 240 units), and (6) posterior cingulate cortex (PCC, 24 units). We first examined all autothresholded units together. We collected between 16 to 96 units per patient, with the most units coming from the hippocampus and anterior cingulate and the least coming from the thalamus and posterior cingulate.
 
-We evaluated \textit{encoder model performance} using the pseudo $R^2$ score, which defines the relative performance gain over a null model that predicts spike counts from the average firing rate and duration of each word (\textbf{Methods}). Pseudo $R^2$ was chosen for its interpretability and inherent benchmarking: a score equal to zero indicates performance that is equal to our specified null model. Negative values indicate performance that was worse than the null model. Moreover, pseudo $R^2$ scores with mean firing rate nulls are commonly used to evaluate GLM performance in neural coding analyses \citep{bib57,bib58,bib59}. Our automated pipeline produced robust encoding models, as seen from average pseudo $R^2$ scores above 0 ($0.004 \pm 0.0003$ to $0.12 \pm 0.025$) for all patients (\textbf{Figure 3A}). Our response range is typical for neural encoding models \citep{bib57,bib58,bib59}, and significant scores above zero confirm that our automated pipeline is able to detect semantic tuning without manual data curation.
+We evaluated \textit{encoder model performance} using the pseudo R\textsuperscript{{2}} score, which defines the relative performance gain over a null model that predicts spike counts from the average firing rate and duration of each word (\textbf{Methods}). Pseudo R\textsuperscript{{2}} was chosen for its interpretability and inherent benchmarking: a score equal to zero indicates performance that is equal to our specified null model. Negative values indicate performance that was worse than the null model. Moreover, pseudo R\textsuperscript{{2}} scores with mean firing rate nulls are commonly used to evaluate GLM performance in neural coding analyses \citep{bib57,bib58,bib59}. Our automated pipeline produced robust encoding models, as seen from average pseudo R\textsuperscript{{2}} scores above 0 ($0.004 \pm 0.0003$ to $0.12 \pm 0.025$) for all patients (\textbf{Figure 3A}). Our response range is typical for neural encoding models \citep{bib57,bib58,bib59}, and significant scores above zero confirm that our automated pipeline is able to detect semantic tuning without manual data curation.
 
-We next compared encoding performance for patient-only speech identified by our video diarization pipeline with all ambient speech. We overall found encoding performance to be stronger for produced speech than all speech (\textbf{Figure 3B}). Specifically, we see a 2.42-fold increase (from 0.026 to 0.064) in pseudo $R^2$ scores for patient-spoken speech. This finding is especially notable considering our patient-only models were trained on $50.52~(\pm 12.30)$ times less data on average. One reason produced speech may be more strongly encoded is that it requires attention, while ambient speech may be ignored \citep{bib35}.
+We next compared encoding performance for patient-only speech identified by our video diarization pipeline with all ambient speech. We overall found encoding performance to be stronger for produced speech than all speech (\textbf{Figure 3B}). Specifically, we see a 2.42-fold increase (from 0.026 to 0.064) in pseudo R\textsuperscript{{2}} scores for patient-spoken speech. This finding is especially notable considering our patient-only models were trained on $50.52~(\pm 12.30)$ times less data on average. One reason produced speech may be more strongly encoded is that it requires attention, while ambient speech may be ignored \citep{bib35}.
 
 \subsubsection{Comparison with controlled tasks}
 
@@ -399,13 +401,13 @@ We then tested a version using uncorrected WhisperX transcripts rather than hand
 
 \subsubsection{Variability in encoding over time}
 
-We next evaluated how pooling data across days affects our model performance compared to training models on single-day data. We trained encoding models from each individual day in each patient's stay and compared them to models trained on the entire patient stay (averaging 6.72 days, ranging from 6--11 days). We find that models trained on individual days performed significantly better than models trained with data from all days, with $3.06~(\pm 0.44)$-fold greater pseudo $R^2$ scores on average (\textbf{Figure 3D}). Thus, day-to-day variability is a major driver of variation in encoding model performance.
+We next evaluated how pooling data across days affects our model performance compared to training models on single-day data. We trained encoding models from each individual day in each patient's stay and compared them to models trained on the entire patient stay (averaging 6.72 days, ranging from 6--11 days). We find that models trained on individual days performed significantly better than models trained with data from all days, with $3.06~(\pm 0.44)$-fold greater pseudo R\textsuperscript{{2}} scores on average (\textbf{Figure 3D}). Thus, day-to-day variability is a major driver of variation in encoding model performance.
 
 While during formal experiments we are able to limit the number of distractions and ensure patients are focused on the task, directing patient attention is not possible in a naturalistic setting, and neural tuning to semantics may differ based on the stimulus the patient is (or is not) paying attention to \citep{bib35}. To probe attentional changes in model performance, we trained encoding models on two-hour epochs across the patient stay, such that we could compare encoding strength at 2 PM and 7 PM on the same day, for example. We assessed whether epoch encoding strength correlated with the portion of time in the epoch the patient spent speaking, which can potentially be viewed as a proxy for patient attention and engagement with ambient speech. For example, the portion would be 0 when the patient is passively listening to the television while engaged in a separate activity, while it could be as high as 0.7 when they are actively engaged in conversation with another person. We find that, when regressing patient speech fraction against epoch encoding strength via weighted least squares (see: \textbf{Methods}), 62\% of patients have a positive trend (56\% significant), while 38\% of patients have a negative trend (19\% significant, \textbf{Figure 3E}). While this result may be a consequence of our units being significantly more tuned to patient speech, it may also indicate that overall, semantic tuning in our units is significantly correlated with the portion of patient speech engagement, potentially indicating that patient engagement and/or attention is a significant factor in developing high-performing semantic coding models.
 
 \subsubsection{Comparing brain regions}
 
-We found all recorded brain regions (median pseudo $R^2 > 0$) generate significant semantic encoding models from the naturalistic speech dataset. We found PCC, ACC and HPC to be the highest performing brain regions, with the remaining brain regions ranked in the following decreasing order: thalamus, OFC, and amygdala (\textbf{Figure 3F}). This result corroborates findings from existing literature implicating hippocampus in higher-level semantic/symbolic language processing and findings of distributed semantic networks throughout the brain \citep[e.g.,][]{bib2}.
+We found all recorded brain regions (median pseudo R\textsuperscript{{2}} $>$ 0) generate significant semantic encoding models from the naturalistic speech dataset. We found PCC, ACC and HPC to be the highest performing brain regions, with the remaining brain regions ranked in the following decreasing order: thalamus, OFC, and amygdala (\textbf{Figure 3F}). This result corroborates findings from existing literature implicating hippocampus in higher-level semantic/symbolic language processing and findings of distributed semantic networks throughout the brain \citep[e.g.,][]{bib2}.
 
 \clearpage
 
@@ -455,7 +457,7 @@ We trained decoding models separately for each brain region. All brain regions p
 
 The scale of our dataset lets us determine the effect of data quantity on performance. When we randomly decimate our per-day datasets to portions ranging from 1\% to 90\% of the data (\textbf{Methods}), we generally find that additional training data improves encoding model performance (\textbf{Figure 5A}). That performance shows marginal decline, although we do not detect any saturation. Our best fit curve is modelled after the Hill equation, which is commonly used for sigmoidal biological relationships (\textbf{Methods}). Moreover, we found the Hill equation to significantly fit our data according to permutation testing ($p<0.01$) and it also better explained experimental data than a weighted least squares fit ($\mathrm{Loss}_{\mathrm{hill}} < \mathrm{Loss}_{\mathrm{wls}}$; $d\mathrm{Loss} = 90.4$).
 
-We next quantified the minimum amount of data needed to generate statistically meaningful results. We calculate pseudo $R^2$ by comparing it to a simpler model using word duration only. We find that model performance exceeds durational null performance when using at least $4.7\%~(\pm 0.04\%)$ of the dataset on average.
+We next quantified the minimum amount of data needed to generate statistically meaningful results. We calculate pseudo R\textsuperscript{{2}} by comparing it to a simpler model using word duration only. We find that model performance exceeds durational null performance when using at least $4.7\%~(\pm 0.04\%)$ of the dataset on average.
 
 We then repeated these analyses using number of words, instead of number of minutes. As with minutes, we find a clear logistic growth curve, with performance exceeding null at around $724~(\pm 3)$ words (\textbf{Figure 5B}). The Hill equation similarly significantly fit our data and performed better than a simple linear fit ($\mathrm{Loss}_{\mathrm{hill}} < \mathrm{Loss}_{\mathrm{wls}}$; $d\mathrm{Loss} = -307.5$).
 
@@ -475,9 +477,9 @@ We find that the proportion of units significantly tuned to our semantic embeddi
 
 We wanted to assess the stability of our encoding and decoding model performance due to known phenomena of representational drift and recording inconsistencies \citep{bib136,bib137}. Importantly, we wanted to address the rate of model degradation over time and whether it differed for unit encoding versus population decoding models, as such questions hold significant ramifications for the development of generalizable neural coding models of behavior.
 
-We find that, for encoding models, model performance decreases as a function of the temporal separation between the original training day and the subsequent test day ($p<0.001$, \textbf{Figure 6A}). This effect is strongest when comparing within-day testing to the next-day ($+1$), where the median pseudo $R^2$ score dips from $0.034~(\pm 0.006)$ to $-0.027~(\pm 0.008)$ and tends to grow more negative over time ($R^2$ scores are normalized in reference to null performance, so decreases below zero are meaningful). Moreover, the portion of significant units plummets from $97.8\%~(\pm 1.2\%)$ on average to $7.8\%~(2.4\%)$ after just one day of separation (\textbf{Figure 6B}). Overall, we find that significant model degradation occurs for our single-unit encoding models after even just one day of temporal separation, rendering most models unreliable for downstream use cases after their original training date.
+We find that, for encoding models, model performance decreases as a function of the temporal separation between the original training day and the subsequent test day ($p<0.001$, \textbf{Figure 6A}). This effect is strongest when comparing within-day testing to the next-day ($+1$), where the median pseudo R\textsuperscript{{2}} score dips from $0.034~(\pm 0.006)$ to $-0.027~(\pm 0.008)$ and tends to grow more negative over time ($R^2$ scores are normalized in reference to null performance, so decreases below zero are meaningful). Moreover, the portion of significant units plummets from $97.8\%~(\pm 1.2\%)$ on average to $7.8\%~(2.4\%)$ after just one day of separation (\textbf{Figure 6B}). Overall, we find that significant model degradation occurs for our single-unit encoding models after even just one day of temporal separation, rendering most models unreliable for downstream use cases after their original training date.
 
-Unlike encoding models, decoding model performance does not significantly decrease with distance in time ($p = 0.6450$, \textbf{Figure 6C}). However, similar to encoding, the proportion of significant models does decrease significantly over time (weighted least squares, $p<0.001$), albeit at a much more steady rate (\textbf{Figure 6D}). Specifically, the percent of significant models starts at $95.3\%~(\pm 1.9\%)$ and degrades to $65.6\%~(\pm 9.1\%)$ of models still performing with statistical significance after eight days from their original training date. The relative stability of decoding drift is apparent when we compare the distributions of regression slopes of individual model performance between encoding and decoding. We found model decoding slopes to be significantly higher than model encoding slopes (one-tailed $t$-test, $p<0.001$, \textbf{Figure 6E}). Moreover, the overwhelming majority of encoding models have negative slopes (meaning their performance decreases over time), while the average decoding model has a positive slope.
+Unlike encoding models, decoding model performance does not significantly decrease with distance in time ($p = 0.6450$, \textbf{Figure 6C}). However, similar to encoding, the proportion of significant models does decrease significantly over time (weighted least squares, $p<0.001$), albeit at a much more steady rate (\textbf{Figure 6D}). Specifically, the percent of significant models starts at $95.3\%~(\pm 1.9\%)$ and degrades to $68.6\%~(\pm 9.5\%)$ of models still performing with statistical significance after eight days from their original training date. The relative stability of decoding drift is apparent when we compare the distributions of regression slopes of individual model performance between encoding and decoding. We found model decoding slopes to be significantly higher than model encoding slopes (one-tailed $t$-test, $p<0.001$, \textbf{Figure 6E}). Moreover, the overwhelming majority of encoding models have negative slopes (meaning their performance decreases over time), while the average decoding model has a positive slope.
 
 We next investigated the differences between the tuning functions for our single-unit encoding models. The vectors of weights of our models can be thought of as tuning functions that map behavioral representations to neural activity \citep{bib53,bib68,bib69}. We find that as the amount of time between training sets increases, the cosine distance of our tuning functions increases very gradually (weighted least squares, $p=0.0427$, \textbf{Figure 6F}). Thus, beyond performance loss, the temporal degradation in single-unit semantic encoding is accompanied by slight drift in the semantic tuning functions themselves. Therefore, while maximizing recording stability is an important avenue for the development of consistent semantic coding models, additional model-level corrections (such as aligning latent neural embeddings; \citealp{bib70}) are also likely needed to account for inherent neural variability across time.
 
@@ -513,7 +515,7 @@ Variability in attention engagement is a major potential source of noise in inci
 \section{Methods}\label{sec11}
 
 \subsection{Electrophysiology Recording}\label{subsec1}
-All recorded epilepsy patients (8M, 13F, ages 21-69) were undergoing neural monitoring for seizure localization at the Epilepsy Monitoring Unit (EMU) at Baylor St. Luke’s Medical Center in Houston, TX. Patients had Behnke-Fried intracranial electrodes placed in various regions of the brain that differed per patient, with a subset of depth electrodes including microwires from which single unit data was recorded and analyzed for this study.
+All recorded epilepsy patients (8M, 13F, ages 18-54 years, average age: 34.5 $\pm$ 2.2 years) were undergoing neural monitoring for seizure localization at the Epilepsy Monitoring Unit (EMU) at Baylor St. Luke’s Medical Center in Houston, TX. Patients had Behnke-Fried intracranial electrodes placed in various regions of the brain that differed per patient, with a subset of depth electrodes including microwires from which single unit data was recorded and analyzed for this study.
 
 \subsection{Behavioral Recording}\label{subsec2}
 Two Blue Yeti microphones, one directly above the patient bed and another in the corner of the room, recorded all ambient audio in the EMU, which included frequent conversations between the patient and others. Only the audio from the microphone above the patient bed was used for our analysis as it tended to record patient speech with more clarity. Eight Flir cameras located at various positions throughout the room recorded video of patient bed from various angles, capturing patient motions, expressions, and activities. Camera quality was valididated via manual inspection per patient and the camera with the clearest view of the patient's face was used for analysis.
@@ -522,7 +524,7 @@ Two Blue Yeti microphones, one directly above the patient bed and another in the
 To identify sections of our recording containing human speech, we used silero\_vad (GitHub: \href{https://github.com/snakers4/silero-vad}{snakers4/silero-vad}, \citealp{bib43}), which is widely used in many speech processing pipelines and is considered state-of-the-art for voice activity detection, including in noisy, naturalistic environments. The model was provided audio from the room mic in ten minute chunks, and it outputted intervals of time predicted to contain human speech. Intervals that were less than one minute apart were merged up to a maximum of thirty minutes and considered continuous speech chunks. Each speech chunk was then preprocessed independently.
 
 \subsection{Transcript Assembly}\label{subsec4}
-To transcribe audio in the EMU, We ran each speech chunk through a modified version of OpenAI's Whisper called WhisperX (WhisperX, 2026) that uses acoustic embeddings to improve word segmentation. We then ran all words through GPT-2 (\href{https://huggingface.co/openai-community/gpt2-large}{openai-community/gpt2-large}) with a maximum within-chunk context window of 200 words. We used the last layer of each word's hidden state to derive semantic embeddings of spoken speech in the EMU.
+To transcribe audio in the EMU, We ran each speech chunk through a modified version of OpenAI's Whisper called WhisperX \citep{bib39} that uses acoustic embeddings to improve word segmentation. We then ran all words through GPT-2 (\href{https://huggingface.co/openai-community/gpt2-large}{openai-community/gpt2-large}) with a maximum within-chunk context window of 200 words. We used the last layer of each word's hidden state to derive semantic embeddings of spoken speech in the EMU.
 
 \subsection{Active Speaker Detection}\label{subsec5}
 To identify sections of speech chunks with patient speech, we used an Active Speaker Detection (ASD) model called Lightweight and Robust Network for Active Speaker Detection (LR-ASD, GitHub: \href{https://github.com/Junhua-Liao/LR-ASD}{Junhua-Liao/LR-ASD}). This multimodal model is able to use both acoustic and facial features to predict whether a given person is speaking in a video frame. Since our video stream does not contain audio, we used an internal Python package (\href{https://github.com/BCM-Neurosurgery/video-sync-nbu}{BCM-Neurosurgery/video-sync-nbu}) to align each speech chunk with its associated video before providing it to LR-ASD. We then labeled segments of speech (as identified by WhisperX, roughly corresponding to a sentence) as patient speech if more than 50\% of the frames during that segment were predicted to contain the patient speaking by LR-ASD.
@@ -530,11 +532,11 @@ To identify sections of speech chunks with patient speech, we used an Active Spe
 \subsection{Quality Metrics}\label{subsec6} 
 For every sentence, we calculated its corresponding CTC log-likelihood, WhisperX quality score, spectral entropy, and DNSMOS quality scores. We identified outlier sentences using the interquartile range of each distribution and removed these sentences. This resulted in an average of 14.7\% ($\pm$ 1.5\%) of our sentences being considered low quality and filtered out before downstream analysis.
 
-The connectionist temporal classification (CTC) loss quantifies the likelihood of a transcription given its associated audio segment. Using a pretrained wav2vec model, which is known to generate phonetically accurate acoustic embeddings of speech [8], we calculated embeddings of each audio segment and found its CTC loss value with its corresponding WhisperX transcript. We specifically used the \href{https://huggingface.co/facebook/wav2vec2-large-960h-lv60-self}{wav2vec2-large-960h-lv60-self} weights for the model. The CTC loss for transcript y and audio segment x is formalized below as:
+The connectionist temporal classification (CTC) loss quantifies the likelihood of a transcription given its associated audio segment. Using a pretrained wav2vec model, which is known to generate phonetically accurate acoustic embeddings of speech \citep{bib83}, we calculated embeddings of each audio segment and found its CTC loss value with its corresponding WhisperX transcript. We specifically used the \href{https://huggingface.co/facebook/wav2vec2-large-960h-lv60-self}{wav2vec2-large-960h-lv60-self} weights for the model. The CTC loss for transcript y and audio segment x is formalized below as:
 \[
 \mathcal{L}_{CTC}=-\log{p(y \mid x)}=-\sum_{\pi}\prod_{t=1}^{t}p(\pi_{t}\mid x)
 \]
-where $\pi_{t}$ is a symbol set in the set of all acoustic frame-level paths that lead to our target transcript. The precise formulation of frame-level paths as well as the algorithmic implementation of the loss can be found in the original Connectionist Temporal Classification paper [9]. Our CTC log-likehood score is simply defined as the negative of the CTC loss value:
+where $\pi_{t}$ is a symbol set in the set of all acoustic frame-level paths that lead to our target transcript. The precise formulation of frame-level paths as well as the algorithmic implementation of the loss can be found in the original Connectionist Temporal Classification paper \citep{bib84}. Our CTC log-likehood score is simply defined as the negative of the CTC loss value:
 \[
 score_\mathit{ctc}=-\mathcal{L}_\mathit{CTC}
 \]
@@ -545,7 +547,7 @@ H(t)=-\sum_{f}P(f,t)\log_{2}P(f,t)
 \]
 We took the average of $H(t)$ across time bins to calculate a segment-wide measure of spectral dispersion which we report as the spectral entropy score.
 
-We also filtered audio segments via quality scores provided directly by the WhisperX pipeline, which quantify the pipeline’s alignment confidence between audio and its associated transcript. We lastly filtered using scores provided by DNSMOS, a neural estimator of perceptual speech quality trained to approximate human-labeled quality scores on measures of speech clarity and background noise. We refer readers to the respective papers for specifics on how these scores are calculated [3, 10]. 
+We also filtered audio segments via quality scores provided directly by the WhisperX pipeline, which quantify the pipeline’s alignment confidence between audio and its associated transcript. We lastly filtered using scores provided by DNSMOS, a neural estimator of perceptual speech quality trained to approximate human-labeled quality scores on measures of speech clarity and background noise. We refer readers to the respective papers for specifics on how these scores are calculated \citep{bib39,bib85}.
 
 Together these filtration metrics provide a means to exclude low-quality transcripts that would negatively impact our downstream modeling performance without resorting to extensive manual checks of our dataset. We aimed to capture measures across orthogonal modes of contamination, especially those concerning raw audio quality and transcript alignment probability.  
 
@@ -573,7 +575,7 @@ Detected spike times were converted to a binary spike train per channel sampled 
 .
 \subsection{Poisson GLM}\label{subsec8}
 Our semantic encoding model involved using GPT-2 embeddings to predict firing rate. Our model inputs are defined below for every $i^{th}$ input:
-\begin{itemize}[leftmargin=2.5em,label=\textendash,itemsep=3pt,topsep=4pt]
+\begin{itemize}[leftmargin=5em,label=\textendash,itemsep=3pt,topsep=4pt]
   \item feature vector $x_{i}\in \mathbb{R}^d$, where $d$ is the dimensionality of the principal components (PCs) of the last GPT-2 hidden state (1280 → 100). PCs were used to maximize information across dimensions and reduce model complexity.
   \item spike count vector $y_{i}\in \mathbb{R}^K$, where $K$ is the number of channels recorded from and each value is the associated spike count for word $i$
   \item word duration $\Delta_{i}$ in milliseconds
@@ -608,7 +610,7 @@ $\mu_{ik,\mathit{real}}$ is the individual prediction from our Poisson GLM, wher
 \end{gather*}
 
 \subsection{XGBoost Decoder}\label{subsec10}
-To decode semantic category labels from population firing rate activity, we trained multiclass gradient-boosted decision tree classifiers using XGBoost. For each word $i$, the feature vector $x_i$ is defined as the average firing rate across the word’s duration for all $K$ recorded channels. Per-bin firing rate was calculated by convolving a gaussian kernel with 50 ms standard deviation across our autothresholded binary spike train. The average firing rate was calculated as the mean of all firing rates whose bins overlapped with the word duration. The output label $y_i$ is the corresponding semantic category of the word, which is classified from the word2vec embedding of the word (see: \textbf{6.10}). The model was optimized using the multiclass log loss:
+To decode semantic category labels from population firing rate activity, we trained multiclass gradient-boosted decision tree classifiers using XGBoost. For each word $i$, the feature vector $x_i$ is defined as the average firing rate across the word’s duration for all $K$ recorded channels. Per-bin firing rate was calculated by convolving a gaussian kernel with 50 ms standard deviation across our autothresholded binary spike train. The average firing rate was calculated as the mean of all firing rates whose bins overlapped with the word duration. The output label $y_i$ is the corresponding semantic category of the word, which is classified from the word2vec embedding of the word (see: \textbf{4.10}). The model was optimized using the multiclass log loss:
 \[
 \mathcal{L}=-\frac{1}{N}\sum_{i=1}^N\sum_{c=1}^C\mathbf{1}[y_i=c]\log\hat{p}_{ic},\quad\text{where $C$ is the number of classes}
 \]
@@ -628,7 +630,7 @@ acc=\frac{TP+TN}{TP+TN+FP+FN}
 \]
 
 \subsection{Semantic Category Classifier}\label{subsec11}
-Semantic categories were determined from an XGBoost classifier trained to predict class labels from a word’s word2vec embedding. Initial semantic labels were provided by the conversation dataset through clustering methods described in Chavez et al [5]. To extrapolate these labels to other datasets, we generated word2vec embeddings of each conversation word with an associated label via fastText word vectors pretrained on the English sections of Common Crawl and Wikipedia (using the model downloadable at \href{https://fasttext.cc/docs/en/crawl-vectors.html}{fasttext.cc}. Then, we trained an XGBoost classifier with the same randomized hyperparameter search described in \textbf{6.10} on a stratified training set. The $F_1$ macro score on the held-out test set was 0.96, indicating the semantic categories described in Chavez et al [5] are reliably recoverable from their word2vec embeddings. 
+Semantic categories were determined from an XGBoost classifier trained to predict class labels from a word’s word2vec embedding. Initial semantic labels were provided by the conversation dataset through clustering methods described in \citet{bib53}. To extrapolate these labels to other datasets, we generated word2vec embeddings of each conversation word with an associated label via fastText word vectors pretrained on the English sections of Common Crawl and Wikipedia (using the model downloadable at \href{https://fasttext.cc/docs/en/crawl-vectors.html}{fasttext.cc}. Then, we trained an XGBoost classifier with the same randomized hyperparameter search described in \textbf{4.10} on a stratified training set. The $F_1$ macro score on the held-out test set was 0.96, indicating the semantic categories described in \citet{bib53} are reliably recoverable from their word2vec embeddings. 
 
 \subsection{Task Information}\label{subsec12}
 Two control tasks, colloquially referred to as “podcast” and “conversation”, were used to compare the relative performance gain of naturalistic speech-trained models.
@@ -656,7 +658,7 @@ SIM_\mathit{WER}=1-WER
 The sentence with the highest $SIM_\mathit{WER}$ was taken as the corrected sentences’ match. If no sentence had $SIM_\mathit{WER} >0.5$ the sentence was marked unmatched.
 
 \subsection{Sentence Match Summary Statistics}\label{subsec14}
-The token-level Levenshtein distance described in \textbf{6.13} calculates the matched words between the reference and naturalistic sentence. To define the distribution of word timestamp errors, we simply calculated the median timestamp of each word referenced to the start of its sentence and calculated the difference between the reference and naturalistic timestamp. The timestamp error for word pair $i$ in sentence pair $j$ is defined as:
+The token-level Levenshtein distance described in \textbf{4.13} calculates the matched words between the reference and naturalistic sentence. To define the distribution of word timestamp errors, we simply calculated the median timestamp of each word referenced to the start of its sentence and calculated the difference between the reference and naturalistic timestamp. The timestamp error for word pair $i$ in sentence pair $j$ is defined as:
 \begin{gather*}
 \epsilon_i=m_{ai}-m_{ri},\quad\text{where}\\
 m_{ai}=\frac{start_{ai}+end_{ai}}{dur_{ai}}-start_{aj},\quad\text{and}\\
@@ -665,11 +667,11 @@ m_{ri}=\frac{start_{ri}+end_{ri}}{dur_{ri}}-start_{rj}
 
 The same error metric was calculated for each sentence $i$ as well to compare sentence-level temporal errors. The resulting distributions describe the extent of temporal errors in sentence-level segmentation between corrected and naturalistic sentences.
 
-We defer to the original Sentence-BERT paper for a detailed explanation of the model used to transform sentences into semantic embeddings suitable for cosine distance comparison (Reimers et al., 2019).
+We defer to the original Sentence-BERT paper for a detailed explanation of the model used to transform sentences into semantic embeddings suitable for cosine distance comparison \citep{bib54}.
 
 \subsection{Permutation Testing}\label{subsec15}
 
-To evaluate whether each neuron’s GLM performance was significant compared to predictions based on word duration or other latent structural features, we randomly permuted the GPT embeddings 50 times for each cross fold and refit our Poisson GLM with the same vector. This destroyed the semantic relationship between input and output whilst maintaining word duration as labels were not permuted instead. PCA was recalculated for the newly permuted training set per fold. The p-value per fold is calculated by observing the proportion of times the log-likelihood \textbf{6.8} value of our permuted model is greater than or equal to our real model:
+To evaluate whether each neuron’s GLM performance was significant compared to predictions based on word duration or other latent structural features, we randomly permuted the GPT embeddings 50 times for each cross fold and refit our Poisson GLM with the same vector. This destroyed the semantic relationship between input and output whilst maintaining word duration as labels were not permuted instead. PCA was recalculated for the newly permuted training set per fold. The p-value per fold is calculated by observing the proportion of times the log-likelihood \textbf{4.8} value of our permuted model is greater than or equal to our real model:
 \[
 p=\frac{1+\sum_{n=1}^{N_\mathit{shuf}}\mathbf{1}[\log\mathcal{L}_{\mathit{shuf},n}\ge\log\mathcal{L}_\mathit{real}]}{N_\mathit{shuf}+1}
 \]
@@ -681,7 +683,7 @@ p=\frac{1+\sum_{n=1}^{N_\mathit{shuf}}\mathbf{1}[\log\mathcal{L}_{\mathit{shuf},
 \end{gather*}
 
 \subsection{Spike Sorting}\label{subsec16}
-To evaluate the effect of neural preprocessing techniques on our downstream , we also sorted raw voltage traces with the algorithm included as part of the wave\_clus MATLAB package (Chaure et al., 2018). The resulting sorted clusters were then manually evaluated and filtered were then manually evaluated and filtered with the wave\_clus GUI. Non-spike noise was removed and each signal was classified as multi or single unit using several criteria: consistent spike waveforms, waveform shape, exponentially decaying ISI histogram, and refractory period (1 ms) violations below 5\%. Sorted signals were included for both single and multi unit activity.
+To evaluate the effect of neural preprocessing techniques on our downstream , we also sorted raw voltage traces with the algorithm included as part of the wave\_clus MATLAB package \citep{bib87}. The resulting sorted clusters were then manually evaluated and filtered were then manually evaluated and filtered with the wave\_clus GUI. Non-spike noise was removed and each signal was classified as multi or single unit using several criteria: consistent spike waveforms, waveform shape, exponentially decaying ISI histogram, and refractory period (1 ms) violations below 5\%. Sorted signals were included for both single and multi unit activity.
 
 \subsection{Model Performance Comparisons}\label{subsec17}
 All statistical analyses were performed using two-sided tests unless otherwise specified, with significance assessed at $\alpha = 0.05$.
@@ -747,7 +749,7 @@ with solution
 (X^\top W X)^{-1}X^\top W\mathbf{y}.
 \]
 
-For patient-speech fraction vs. epoch model performannces (\textbf{Figure 3E}, \textbf{Figure 4F}), $x_i$ was the patient-speech fraction within an epoch and $y_i$ was encoding pseudo-$R^2$ or decoding accuracy, respectively. WLS fits were performed separately for each patient. Weights were assigned by inverse bin density of the predictor, using Freedman--Diaconis bins capped at 20 bins, so overrepresented speech-fraction ranges contributed less strongly to the fit.
+For patient-speech fraction vs. epoch model performannces (\textbf{Figure 3E}, \textbf{Figure 4F}), $x_i$ was the patient-speech fraction within an epoch and $y_i$ was encoding pseudo R\textsuperscript{{2}} or decoding accuracy, respectively. WLS fits were performed separately for each patient. Weights were assigned by inverse bin density of the predictor, using Freedman--Diaconis bins capped at 20 bins, so overrepresented speech-fraction ranges contributed less strongly to the fit.
 
 For populution size vs. decoding performance (\textbf{Figure 4E}), $x_i$ was population size and $y_i$ was decoding accuracy. The same inverse-density WLS procedure was used.
 
@@ -782,10 +784,26 @@ where \(\hat{\beta}_1\) is the estimated WLS slope and
 For encoding vs. decoding drift comparison (\textbf{Figure 6E}), drift slopes were computed separately for each patient and training day after min--max normalizing performance within each training-day series.
 
 \subsection{Epoch Analyses}\label{subsec19}
-To assess short-term changes in encoder/decoder model performance, we fit models on shorter timescales than our full-stay or per-day analyses. These were trained and tested identically to models in \textbf{6.8}, except each model was trained on a particular 2-hour block from 9 AM - 11 PM (local time).
+To assess short-term changes in encoder/decoder model performance, we fit models on shorter timescales than our full-stay or per-day analyses. These were trained and tested identically to models in \textbf{4.8}, except each model was trained on a particular 2-hour block from 9 AM - 11 PM (local time).
+
+Prior to weighted-least-squares regression on epoch-level pseudo R\textsuperscript{{2}} values, we removed unit--epoch observations whose pseudo R\textsuperscript{{2}} magnitude fell in the catastrophic numerical-failure tail using a data-derived elbow criterion. Let $\{a_j\} = \{|\psi R^2_j|\}$ denote the set of absolute pseudo R\textsuperscript{{2}} values across all finite unit--epoch fits. We evaluated tail quantiles on a fine grid $s \in [s_0, 100]$ (with $s_0 = 95$, $n_\text{grid} = 501$ points), and transformed to a log scale:
+\[
+q_s = \mathrm{Quantile}(\{a_j\},\, s), \qquad
+\ell_s = \log_{10}(q_s + 1).
+\]
+Both axes were then normalized to $[0,1]$:
+\[
+\tilde{s} = \frac{s - s_{\min}}{s_{\max} - s_{\min}}, \qquad
+\tilde{\ell}_s = \frac{\ell_s - \ell_{\min}}{\ell_{\max} - \ell_{\min}}.
+\]
+The elbow was located at the quantile level that maximized the vertical distance below the diagonal of this normalized curve (Kneedle criterion):
+\[
+s^{*} = \arg\max_{s}\!\left(\tilde{s} - \tilde{\ell}_{s}\right),
+\]
+and the corresponding fence value $\tau = q_{s^{*}}$ defined the inclusion threshold. Unit--epoch rows with $|\psi R^2| > \tau$ were excluded from WLS analyses; values within the fence but outside the display range $[-1, 1]$ were retained in the regression while the plot axis remained fixed.
 
 \subsection{Variance Comparison}\label{subsec20}
-We compared the relative dispersion of encoding and decoding model performance across recording epochs using the coefficient of variation (CV). Encoding dispersion was computed from all positive, significant single-unit pseudo-$R^2$ values pooled across patients and epochs. Decoding dispersion was computed from all positive accuracy values from individual decoding resamples pooled across patients and epochs.
+We compared the relative dispersion of encoding and decoding model performance across recording epochs using the coefficient of variation (CV). Encoding dispersion was computed from all positive, significant single-unit pseudo R\textsuperscript{{2}} values pooled across patients and epochs. Decoding dispersion was computed from all positive accuracy values from individual decoding resamples pooled across patients and epochs.
 
 For a set of performance values
 \[
@@ -883,7 +901,7 @@ T \sim \chi^2_1.
 To assess the relative performance of brain regions in semantic category decoding, we fit population decoders using only units from specific regions. Those units that were on the border of their intended target or otherwise missed it according to visual inspection of the post-operative, coregistered CT scan in RAVE \citep{bib88} were excluded from this analysis. To remove unit count as a confounding factor, we fit each population decoder with only 8 units. If we had more than 8 units for a particular region, we sampled 8 units 5 times and fit 10 category-sampled models for a total of 50 fits per brain region. Otherwise, we only fit 10 category-sampled models for patient regions where there were only 8 units. To increase training efficiency, we only performed full hyperparameter search on the first three sample models per region and then picked the hyperparameters that most reduced model complexity for subsequent fits. 
 
 \subsection{Decimation Analysis}\label{subsec22}
-To evaluate the performance growth of our encoding models, we fit Poisson GLMs from \textbf{6.8} using randomly sampled proportions of the per-day naturalistic dataset for each patient. We fit models using 1\%, 5\%, 10\%, 20\%, 30\%, 40\%, 50\%, 60\%, 70\%, 80\%, 90\%, and 100\% of the data with 100, 20, 10, 8, 7, 6, 5, 4, 3, 2, 2, and 1 resamples, respectively. 
+To evaluate the performance growth of our encoding models, we fit Poisson GLMs from \textbf{4.8} using randomly sampled proportions of the per-day naturalistic dataset for each patient. We fit models using 1\%, 5\%, 10\%, 20\%, 30\%, 40\%, 50\%, 60\%, 70\%, 80\%, 90\%, and 100\% of the data with 100, 20, 10, 8, 7, 6, 5, 4, 3, 2, 2, and 1 resamples, respectively. 
 
 \subsection{Hill Curve Fitting}\label{subsec23}
 To evaluate whether our performance growth for encoding models followed a logistic growth curve, we fit a predictive model of pseudo R\textsuperscript{2} as a function of data proportion/number of words used to train the model using the Hill equation:
@@ -902,25 +920,25 @@ We then normalize the weight term for model fitting as below:
 \[
 w_i'=\frac{w_i}{\bar{w}}
 \]
-We then use the same permutation testing scheme as \textbf{6.15} to evaluate the significance of our model compared to chance. We also assessed the relative performance of the Hill model to a simple linear equation with a single weight and bias by calculating the differences in their loss value, negative values indicating our Hill curve achieved a better fit than a linear equation:
+We then use the same permutation testing scheme as \textbf{4.15} to evaluate the significance of our model compared to chance. We also assessed the relative performance of the Hill model to a simple linear equation with a single weight and bias by calculating the differences in their loss value, negative values indicating our Hill curve achieved a better fit than a linear equation:
 \[
 \Delta\mathcal{L}=\mathcal{L}_\mathit{Hill}-\mathcal{L}_\mathit{linear}
 \]
 
 \subsection{Functional Drift}\label{subsec24}
-To assess how our models performed on future data they were not trained on, we performed a functional drift analysis. To do this, we fit models identically to \textbf{6.8} except training data was restricted to the hours of 9 AM and 11 PM on a particular day and then we calculated test performance statistics on each day independently after the initial training day from the hours of 9 AM to 11 PM.
+To assess how our models performed on future data they were not trained on, we performed a functional drift analysis. To do this, we fit models identically to \textbf{4.8} except training data was restricted to the hours of 9 AM and 11 PM on a particular day and then we calculated test performance statistics on each day independently after the initial training day from the hours of 9 AM to 11 PM.
 
-We then fit WLS regressions similar to \textbf{6.18} on the model test performance data to assess if model performance changed significantly over time.
+We then fit WLS regressions similar to \textbf{4.18} on the model test performance data to assess if model performance changed significantly over time.
 
 \subsection{Tuning Function Drift}\label{subsec25}
 
-To assess representational drift of our semantic encoding model, we fit independent Poisson GLMs for each 2-hour epoch of the patient stay similar to \textbf{6.19}, except we used a global PCA to transform all the data along the same basis to ensure weight distances reflected genuine differences in tuning rather than a change of basis.
+To assess representational drift of our semantic encoding model, we fit independent Poisson GLMs for each 2-hour epoch of the patient stay similar to \textbf{4.19}, except we used a global PCA to transform all the data along the same basis to ensure weight distances reflected genuine differences in tuning rather than a change of basis.
 
 To quantify representational drift, we compared the linear vector of weights for each model per-neuron using the cosine similarity score:
 \[
 \mathit{SIM}_\mathit{cos}=\frac{A\cdot B}{\lVert A\rVert \lVert B\rVert}
 \]
-To assess if weight distance changed as a function of time apart, we fit a WLS regression similar \textbf{6.18} of weight distance of models vs. time apart, binned by days apart in terms of calendar date (i.e., 9 PM on Tuesday and 11 AM on Wednesday would be considered one day apart in this scheme).
+To assess if weight distance changed as a function of time apart, we fit a WLS regression similar \textbf{4.18} of weight distance of models vs. time apart, binned by days apart in terms of calendar date (i.e., 9 PM on Tuesday and 11 AM on Wednesday would be considered one day apart in this scheme).
 
 \backmatter
 
@@ -931,7 +949,7 @@ All experimental protocols were approved by the Baylor College of Medicine Insti
 All analysis and processing scripts can be found at \url{https://github.com/BCM-Neurosurgery/speech_247_scripts}.
 
 \bmhead{Use of generative AI}
-Generative AI tools were used to help refine analysis and processing scripts and to revise the writing of this manuscript.
+Generative AI tools were used to assist with code refinement, troubleshooting of analysis and processing scripts, and copy editing of author-written manuscript text for clarity and readability. All analyses, interpretation, manuscript content, and final wording were reviewed and approved by the authors, who take full responsibility for the final manuscript.
 
 %%===========================================================================================%%
 %% If you are submitting to one of the Nature Portfolio journals, using the eJP submission   %%
@@ -942,7 +960,11 @@ Generative AI tools were used to help refine analysis and processing scripts and
 
 \clearpage
 
+% Align the reference list's left edge with the body text (the bibliography
+% \list otherwise resets to the raw page margin, ~0.33in left of body text).
+\begin{adjustwidth}{0.33in}{0pt}
 \bibliography{sn-bibliography}% common bib file
+\end{adjustwidth}
 %% if required, the content of .bbl file can be included here once bbl is generated
 %%\input sn-article.bbl
 
